@@ -15,31 +15,47 @@
   <body>
     <div class="wrapper">
       <header>
-        <h1>SISMID MCMC I Module</h1>
-        <p>MCMC I module, Summer Institute in Statistics and Modeling in Infectious Diseases (SISMID)</p>
+        <h1>SISMID MCMC I</h1>
+        
 
-<table width = 80% border = "0">
-      <tr align = left>
-	<th> Instructors:
-	<th>
-	<th>
-	<th> Time and Place:
-      </tr>
-      <tr align = left valign = top> 
-	<td>
-	  <a href="https://wiki.helsinki.fi/display/biometry/Kari+Auranen" target="_blank">Kari Auranen</a><br>
-	  <img SRC = "../../ka_email.png" BORDER = "0"><br>
-	  <a href="http://faculty.washington.edu/betz/Welcome.html" target="_blank">Elizabeth Halloran</a><br>
-	  <img SRC = "../../eh_email.png" BORDER = "0"><br>
-	  <a href="http://www.stat.washington.edu/vminin/" target="_blank">Vladimir Minin</a><br>
-	  <img SRC = "../../email.png" BORDER = "0"><br>
-	  <td>
-	  <td>
-	<td>W, July 9, 16, 1:30 pm - 5:00 pm,
-	  ThF, June 10-11, 8:30 am - 5:00 pm <br>
-	  <a href="http://www.washington.edu/maps/#!/fsh" target="_blank">Fishery Sciences (FSB)</a>, Room 108
-      </tr>
-    </table>
+
+	<h3>Instructors:</h3>
+	<table border = "0">
+	
+      <tr>
+	<td align = left><a href="https://wiki.helsinki.fi/display/biometry/Kari+Auranen" target="_blank">Kari Auranen</a> 
+	<td align = right><img SRC = "ka_email.png" BORDER = "0" height="17" width="120">
+	</tr>
+	<tr>
+	<td align = left><a href="http://faculty.washington.edu/betz/Welcome.html" target="_blank">Elizabeth Halloran</a> 
+	<td align = right><img SRC = "eh_email.png" BORDER = "0" height="18" width="120">
+	</tr>
+	<tr>
+	<td align = left><a href="http://www.stat.washington.edu/vminin/" target="_blank">Vladimir Minin</a>
+	<td align = right><img SRC = "email.png" BORDER = "0" height="16" width="120">
+	</tr>
+	</table>
+	  
+	  
+	  
+	  
+	<table border = "0">
+	
+      <tr>
+	<td align = left><b>Time</b>
+	<td align = right><b>Place</b>
+	</tr>
+	<tr>
+	<td align = left>July 13, 14, 8:30 am - 5:00 pm
+	<td align = right>TBD
+	</tr>
+	<tr>
+	<td align = left>July 15, 8:30 am - 12:00 pm
+	<td align = right>TBD
+	</tr>
+	</table>
+	
+     
 
         <p class="view"><a href="https://github.com/vnminin/SISMID_MCMC_I">View the Project on GitHub <small>vnminin/SISMID_MCMC_I</small></a></p>
 
@@ -52,36 +68,199 @@
       </header>
       <section>
         <h3>
-SISMID 2015, Module 5: MCMC Methods for Infectious Diseases I</h3>
+SISMID 2015, Module 7: MCMC Methods for Infectious Diseases I</h3>
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+<table width = 80% border = "0">
+      <tr align = left>
+	<th>Course Description:
+      </tr>
+      <tr>
+	<td>
+	  This module is an introduction to Markov chain Monte Carlo methods with some simple applications in 
+	  infectious disease studies. The course includes an introduction to 
+	  Bayesian statistics, Monte Carlo, MCMC, some background theory, and convergence diagnostics. 
+	  Algorithms include Gibbs sampling and Metropolis-Hastings and combinations. 
+	  Familiarity with the R statistical package or other computing language would be helpful. 
+	</td>
+      </tr>
+    </table>
+    
+    <br><br>
+    <b>Syllabus</b>: <a href="lecture-notes/mcmcsyl14.pdf" target="_blank">mcmc_syllabus.pdf</a> 
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+    <br><br>
+    <b>R tutorials</b>: <a href="http://cran.r-project.org/doc/contrib/Paradis-rdebuts_en.pdf" target="_blank">R for Beginners</a>, <a href="http://handelgroup.uga.edu/software/yari.pdf" target="_blank">YaRI (Yet another R Introduction)</a>,
+    <a href="http://faculty.washington.edu/kenrice/rintro/index.shtml" target="_blank">SISMID/SISG Introduction to R</a> 
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+    <br><br>
+    <b>Course materials</b> (<a href="everything.zip" target="_blank">everything.zip</a>):
+    <ol>
+      <li> Intorduction to Bayesian inference and Gibbs sampling
+	<ol type="a">
+	  <li> <i>Slides</i>: <a href="lecture-notes/slides_bayesintro14.pdf" target="_blank">
+	      slides_bayesintro14.pdf</a>
+	  <li> <i>Practicals</i>:
+	    <ul>
+	      <li> <a href="practicals/PracticalBayes12014.pdf" target="_blank">
+		  PracticalBayes.pdf</a>,
+		<a href="practicals/PracticalChain_binomial12014.pdf" target="_blank">
+		  <li>PracticalChain_binomial.pdf</a>
+	    </ul>
+	  <li> <i>R Code</i>: 
+	    <ul>
+	      <li><a href="code/bayesintro.R" target="_blank">bayesintro.R</a>, 
+	      <li><a href="code/chainGibbs.R" target="_blank">chainGibbs.R</a>
+	      <li><a href="code/mychainGibbs.R" target="_blank">mychainGibbs.R</a>
+	    </ul>
+	</ol>
+      <li> Classical Monte Carlo and Markov chain theory
+	<ol type="a">
+	  <li> <i>Notes</i>: <a href="lecture-notes/mc_mcmc2014.pdf" target="_blank">
+	      mc_mcmc2014.pdf</a> (pages 8-14)
+	  <li> Practical: <a href="practicals/dtmc-lab.pdf" target="_blank">
+	      dtmc-lab.pdf</a> 
+	  <li> <i>R Code</i>:
+	    <ul>
+	      <li><a href="code/import_sampl_reduced.R" target="_blank">imp_sampl_reduced.R</a>
+	      <li><a href="code/import_sampl.R" target="_blank">imp_sampl.R</a>
+	      <li> <a href="code/ehrenfest_diff_reduced.R" target="_blank">ehrenfest_diff_reduced.R</a>
+	      <li> <a href="code/ehrenfest_diff.R" target="_blank">ehrenfest_diff.R</a>
+	    </ul>
+	</ol>
+      <li> Metropolis-Hastings algorithm
+	<ol type="a">
+	  <li> <i>Notes</i>: <a href="lecture-notes/mc_mcmc2014.pdf" target="_blank">
+	      mc_mcmc2014.pdf</a> (pages 14-18)
+	  <li> <i>Practical</i><a href="practicals/mh-lab.pdf" target="_blank">
+	      mh-lab.pdf</a> 
+	  <li> <i>R Code</i>:
+	    <ul>
+	      <li> <a href="code/norm_mh_reduced.R" target="_blank">norm_mh_reduced.R</a>
+	      <li> <a href="code/norm_mh.R" target="_blank">norm_mh.R</a>
+	      <li> <a href="code/infect_time_reduced.R" target="_blank">infect_time_reduced.R</a>
+	      <li> <a href="code/infect_time.R" target="_blank">infect_time.R</a>
+	    </ul>
+	</ol>
+      <li> Gibbs sampling and chain binomial model
+	<ol type="a">
+	  <li> <i>Notes</i>: 
+	    <ul>
+	      <li><a href="lecture-notes/mc_mcmc2014.pdf" target="_blank">
+	      mc_mcmc2014.pdf</a> (pages 18-20)
+<!--	      <li> <a href="lecture-notes/Chain_binomial_Lecture2_SISMID2011.pdf" target="_blank">Chain_binomial_Lecture2_SISMID2011.pdf</a>
+	    </ul>
+	  <li> <i>Practical</i>: <a href="practicals/ChainBinomial_Practical2_SISMID2011.pdf" target="_blank">
+	      ChainBinomial_Practical2_SISMID2011.pdf</a>-->
+	  <li> <i>R Code</i>: 
+	    <ul>
+	      <li> <a href="code/chainGibbs.R" target="_blank">chainGibbs.R</a>
+	    </ul>
+	</ol>
+      <li> Metropolis-Hastings and Gibbs combined
+	<ol type="a">
+	  <li> <i>Notes</i>: 
+	    <ul>
+	      <li><a href="lecture-notes/mc_mcmc2014.pdf" target="_blank">
+		  mc_mcmc2014.pdf</a> (pages 20-21)
+	    </ul>
+	  <li> <i>Practicals</i>:
+	    <ul>
+	      <li> <a href="practicals/betabin-lab.pdf" target="_blank">
+		  betabin-lab.pdf</a>
+	    </ul>
+	  <li> <i>R Code</i>: 
+	    <ul>
+	      <li> <a href="code/beta_bin_reduced.R" target="_blank">beta_bin_reduced.R</a>
+	      <li> <a href="code/beta_bin.R" target="_blank">beta_bin.R</a>
+	    </ul>
+	</ol>
+      <li> Chain binomial model revisited
+	<ol type="a">
+	  <li> <i>Notes</i>:
+	    <ul>
+	      <li><a href="lecture-notes/2014_SISMID_5_6.pdf" target="_blank">
+		  2014_SISMID_5_Lecture6.pdf</a>
+	    </ul>
+	  <li> <i>Practicals</i>:
+	    <ul>
+	      <li> <a href="practicals/2014_SISMID_5_Lab6.pdf" target="_blank">
+		  2014_SISMID_5_Lab6.pdf</a>
+	    </ul>
+	  <li> <i>R Code</i>: 
+	    <ul>
+	      <li> <a href="code/checkmodel_reduced.R" target="_blank">checkmodel_reduced.R</a>
+	      <li> <a href="code/checkmodel.R" target="_blank">checkmodel.R</a>
+	      <li> <a href="code/chain_hierarchical_reduced.R" target="_blank">chain_hierarchical_reduced.R</a>
+	      <li> <a href="code/chain_hierarchical.R" target="_blank">chain_hierarchical.R</a>
+	      <li> <a href="code/check_hierarchical.R" target="_blank">check_hierarchical.R</a>
+	    </ul>
+	</ol>
+      <li> General epidemic model
+	<ol type="a">
+	  <li> <i>Notes</i>: 
+	    <a href="lecture-notes/2014_SISMID_5_7.pdf" target="_blank">
+	      2014_SISMID_5_Lecture7.pdf</a>
+	  <li> <i>Practical</i>: <a href="practicals/2014_SISMID_5_Lab7.pdf" target="_blank">
+	      2014_SISMID_5_Lab7.pdf</a>
+	  <li> <i>R Code</i>: 
+	    <ul>
+	      <li> <a href="code/SIRaugmentation_reduced.R" target="_blank">SIRaugmentation_reduced.R</a>
+	      <li> <a href="code/SIRaugmentation.R" target="_blank">SIRaugmentation.R</a>
+	    </ul>
+	</ol>
+      <li> Monte Carlo error and diagnostics 
+	<ol type="a">
+	  <li> <i>Notes</i>: <a href="lecture-notes/mc_mcmc2014.pdf" target="_blank">
+	      mc_mcmc2014.pdf</a> (pages 21-22)
+	  <li> <i>Practical</i>: <a href="practicals/diagnostics-lab.pdf" target="_blank">
+	      diagnostics-lab.pdf</a>
+	  <li> <i>R Code</i>: 
+	    <ul>
+	      <li><a href="code/diagnostics.R" target="_blank">diagnostics.R</a>
+	    </ul>
+	</ol>
+      <li> SIS model
+	<ol type="a">
+	  <li> <i>Notes</i>: <a href="lecture-notes/2014_SISMID_5_9.pdf" target="_blank">
+	      2014_SISMID_5_Lecture9.pdf</a>
+	  <li> <i>Practical</i>: <a href="practicals/2014_SISMID_5_Lab9.pdf" target="_blank">
+	      2014_SISMID_5_Lab9.pdf</a>
+	  <li> <i>R Code</i>: 
+	    <ul>
+	      <li> <a href="code/simulateSIS_N.R" target="_blank">simulateSIS_N.R</a>
+	      <li> <a href="code/MH_SIS.R" target="_blank">MH_SIS.R</a>
+	    </ul>
+	</ol>
+    </ol>
 
-<h3>
-<a id="designer-templates" class="anchor" href="#designer-templates" aria-hidden="true"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
+    <br><br>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+    <b>Useful Books</b>:
+    <ul>
+      <li> C.P. Robert and G. Casella. Monte Carlo statistical methods, 2nd edition,
+	Springer-Verlag, 2004.
+      <li> C.P. Robert and G. Casella. Introducing Monte Carlo methods with R,
+	Springer-Verlag, 2009. (a more hands-on version of the first book by the same authors)
+      <li> J. Albert. Bayesian computation with R, 2nd edition, Springer-Verlag, 2009.
+      <li> P. Br&eacute;maud. Markov chains: Gibbs fields, Monte Carlo simulation, 
+    and queues, Springer-Verlag, 1999.
+    </ul>
 
-<h3>
-<a id="rather-drive-stick" class="anchor" href="#rather-drive-stick" aria-hidden="true"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+    <b>Other Resources</b>:
+    <ul>
+      <li> L. Tierney. <a href="http://projecteuclid.org/euclid.aos/1176325750" target="_blank">
+	  Markov Chains for Exploring Posterior Distributions</a>, 
+	Annals of Statistics, 22, 1701-1762, 1994.
+      <li> S. Chib. and E. Greenberg. <a href = "http://www.jstor.org/pss/2684568" target="_blank">Understanding the Metropolis-Hastings Algorithm</a>,
+	The American Statistician, 49, 327-335, 1995.
+      <li> G. Casella and E.I. George. <a href = "http://www.jstor.org/pss/2685208" target="_blank">Explaining the Gibbs Sampler</a>, 
+	The American Statistician, 46, 167-174, 1992.
+      <li> <a href = "http://www.statslab.cam.ac.uk/~mcmc/" target="_blank">MCMC preprint service</a>
+    </ul>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
-
-<h3>
-<a id="authors-and-contributors" class="anchor" href="#authors-and-contributors" aria-hidden="true"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
-
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
-<h3>
-<a id="support-or-contact" class="anchor" href="#support-or-contact" aria-hidden="true"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out the documentation at <a href="https://help.github.com/pages">https://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+    
+    <br><br>
+    
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/vnminin">vnminin</a></p>
