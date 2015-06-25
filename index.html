@@ -71,164 +71,208 @@
 SISMID 2015, Module 7: MCMC Methods for Infectious Diseases I</h3>
 
 
-	<h3>Course Description:</h3>
 	<p>
-    This module is an introduction to Markov chain Monte Carlo methods with some simple applications in 
+	<b>Course Description:</b>
+    This module is an introduction to Markov chain Monte Carlo (MCMC) methods with some simple applications in 
 	  infectious disease studies. The course includes an introduction to 
 	  Bayesian statistics, Monte Carlo, MCMC, some background theory, and convergence diagnostics. 
 	  Algorithms include Gibbs sampling, Metropolis-Hastings and their combinations. 
 	  Familiarity with the R statistical package or other computing language would be helpful. 
 	</p>
     
-    <br><br>
+    <p>
     <b>Syllabus</b>: <a href="lecture-notes/mcmcsyl14.pdf" target="_blank">mcmc_syllabus.pdf</a> 
+	</p>
 
-    <br><br>
+	<p>
     <b>R tutorials</b>: <a href="http://cran.r-project.org/doc/contrib/Paradis-rdebuts_en.pdf" target="_blank">R for Beginners</a>, <a href="http://handelgroup.uga.edu/software/yari.pdf" target="_blank">YaRI (Yet another R Introduction)</a>,
     <a href="http://faculty.washington.edu/kenrice/rintro/index.shtml" target="_blank">SISMID/SISG Introduction to R</a> 
+	</p>
 
-    <br><br>
-    <b>Course materials</b> (<a href="everything.zip" target="_blank">everything.zip</a>):
-    <ol>
-      <li> Intorduction to Bayesian inference and Gibbs sampling
-	<ol type="a">
-	  <li> <i>Slides</i>: <a href="lecture-notes/slides_bayesintro14.pdf" target="_blank">
+    <b>Course materials</b>:
+    <table border = "0">
+	<tr>
+	<td align = left><i>Slides/Notes</i>
+	<td align = left><i>Practicals</i>
+	<td align = left><i>R Code</i>
+	</tr>
+	<tr bgcolor="lightblue">
+	<td colspan="3"><font color="white"><b>Intorduction to Bayesian inference and Gibbs sampling</b></font>
+	</tr>
+	<tr>
+	<td><a href="lecture-notes/slides_bayesintro14.pdf" target="_blank">
 	      slides_bayesintro14.pdf</a>
-	  <li> <i>Practicals</i>:
-	    <ul>
-	      <li> <a href="practicals/PracticalBayes12014.pdf" target="_blank">
-		  PracticalBayes.pdf</a>,
-		<a href="practicals/PracticalChain_binomial12014.pdf" target="_blank">
-		  <li>PracticalChain_binomial.pdf</a>
-	    </ul>
-	  <li> <i>R Code</i>: 
-	    <ul>
-	      <li><a href="code/bayesintro.R" target="_blank">bayesintro.R</a>, 
-	      <li><a href="code/chainGibbs.R" target="_blank">chainGibbs.R</a>
-	      <li><a href="code/mychainGibbs.R" target="_blank">mychainGibbs.R</a>
-	    </ul>
-	</ol>
-      <li> Classical Monte Carlo and Markov chain theory
-	<ol type="a">
-	  <li> <i>Notes</i>: <a href="lecture-notes/mc_mcmc2014.pdf" target="_blank">
-	      mc_mcmc2014.pdf</a> (pages 8-14)
-	  <li> Practical: <a href="practicals/dtmc-lab.pdf" target="_blank">
-	      dtmc-lab.pdf</a> 
-	  <li> <i>R Code</i>:
-	    <ul>
-	      <li><a href="code/import_sampl_reduced.R" target="_blank">imp_sampl_reduced.R</a>
-	      <li><a href="code/import_sampl.R" target="_blank">imp_sampl.R</a>
-	      <li> <a href="code/ehrenfest_diff_reduced.R" target="_blank">ehrenfest_diff_reduced.R</a>
-	      <li> <a href="code/ehrenfest_diff.R" target="_blank">ehrenfest_diff.R</a>
-	    </ul>
-	</ol>
-      <li> Metropolis-Hastings algorithm
-	<ol type="a">
-	  <li> <i>Notes</i>: <a href="lecture-notes/mc_mcmc2014.pdf" target="_blank">
-	      mc_mcmc2014.pdf</a> (pages 14-18)
-	  <li> <i>Practical</i><a href="practicals/mh-lab.pdf" target="_blank">
+	<td align = left><a href="practicals/PracticalBayes12014.pdf" target="_blank">
+		  PracticalBayes.pdf</a>
+	<td><a href="code/bayesintro.R" target="_blank">bayesintro.R</a>	
+	</tr>
+	<tr>
+	<td>
+	<td><a href="practicals/PracticalChain_binomial12014.pdf" target="_blank">PracticalChain_binomial.pdf</a>
+	<td><a href="code/chainGibbs.R" target="_blank">chainGibbs.R</a>
+	</tr>
+	<tr>
+	<td>
+	<td>
+	<td><a href="code/mychainGibbs.R" target="_blank">mychainGibbs.R</a>
+	</tr>
+	<tr bgcolor="lightblue">
+	<td colspan="3"><font color="white"><b>Classical Monte Carlo and Markov chain theory</b></font>
+	</tr>
+	<tr>
+	<td><a href="https://github.com/vnminin/SISMID_MCMC_I/blob/master/2015/lectures/mc_mcmc2015.pdf" target="_blank">
+	      mc_mcmc2015.pdf</a> 
+	<td><a href="practicals/dtmc-lab.pdf" target="_blank">
+	      dtmc-lab.pdf</a>
+	<td><a href="code/import_sampl_reduced.R" target="_blank">imp_sampl_reduced.R</a> 
+	</tr>
+	<tr>
+	<td>(pages 8-14)
+	<td>
+	<td><a href="code/import_sampl.R" target="_blank">imp_sampl.R</a>	
+	</tr>
+	<tr>
+	<td>
+	<td>
+	<td><a href="code/ehrenfest_diff_reduced.R" target="_blank">ehrenfest_diff_reduced.R</a>
+	</tr>
+	<tr>
+	<td>
+	<td>
+	<td><a href="code/ehrenfest_diff.R" target="_blank">ehrenfest_diff.R</a>
+	</tr>
+	<tr bgcolor="lightblue">
+	<td colspan="3"><font color="white"><b>Metropolis-Hastings algorithm</b></font>
+	</tr>
+	<tr>
+	<td><a href="https://github.com/vnminin/SISMID_MCMC_I/blob/master/2015/lectures/mc_mcmc2015.pdf" target="_blank">
+	      mc_mcmc2015.pdf</a> 
+	<td><a href="practicals/mh-lab.pdf" target="_blank">
 	      mh-lab.pdf</a> 
-	  <li> <i>R Code</i>:
-	    <ul>
-	      <li> <a href="code/norm_mh_reduced.R" target="_blank">norm_mh_reduced.R</a>
-	      <li> <a href="code/norm_mh.R" target="_blank">norm_mh.R</a>
-	      <li> <a href="code/infect_time_reduced.R" target="_blank">infect_time_reduced.R</a>
-	      <li> <a href="code/infect_time.R" target="_blank">infect_time.R</a>
-	    </ul>
-	</ol>
-      <li> Gibbs sampling and chain binomial model
-	<ol type="a">
-	  <li> <i>Notes</i>: 
-	    <ul>
-	      <li><a href="lecture-notes/mc_mcmc2014.pdf" target="_blank">
-	      mc_mcmc2014.pdf</a> (pages 18-20)
-<!--	      <li> <a href="lecture-notes/Chain_binomial_Lecture2_SISMID2011.pdf" target="_blank">Chain_binomial_Lecture2_SISMID2011.pdf</a>
-	    </ul>
-	  <li> <i>Practical</i>: <a href="practicals/ChainBinomial_Practical2_SISMID2011.pdf" target="_blank">
-	      ChainBinomial_Practical2_SISMID2011.pdf</a>-->
-	  <li> <i>R Code</i>: 
-	    <ul>
-	      <li> <a href="code/chainGibbs.R" target="_blank">chainGibbs.R</a>
-	    </ul>
-	</ol>
-      <li> Metropolis-Hastings and Gibbs combined
-	<ol type="a">
-	  <li> <i>Notes</i>: 
-	    <ul>
-	      <li><a href="lecture-notes/mc_mcmc2014.pdf" target="_blank">
-		  mc_mcmc2014.pdf</a> (pages 20-21)
-	    </ul>
-	  <li> <i>Practicals</i>:
-	    <ul>
-	      <li> <a href="practicals/betabin-lab.pdf" target="_blank">
+	<td><a href="code/norm_mh_reduced.R" target="_blank">norm_mh_reduced.R</a> 
+	</tr>
+	<tr>
+	<td>(pages 14-18)
+	<td>
+	<td><a href="code/norm_mh.R" target="_blank">norm_mh.R</a>	
+	</tr>
+	<tr>
+	<td>
+	<td>
+	<td><a href="code/infect_time_reduced.R" target="_blank">infect_time_reduced.R</a>
+	</tr>
+	<tr>
+	<td>
+	<td>
+	<td><a href="code/infect_time.R" target="_blank">infect_time.R</a>
+	</tr>
+	<tr bgcolor="lightblue">
+	<td colspan="3"><font color="white"><b>Gibbs sampling and chain binomial model</b></font>
+	</tr>
+	<tr>
+	<td><a href="https://github.com/vnminin/SISMID_MCMC_I/blob/master/2015/lectures/mc_mcmc2015.pdf" target="_blank">
+	      mc_mcmc2015.pdf</a> 
+	<td>
+	<td><a href="code/chainGibbs.R" target="_blank">chainGibbs.R</a>
+	</tr>
+	<tr>
+	<td>(pages 18-20)
+	<td>
+	<td>
+	</tr>
+	<tr bgcolor="lightblue">
+	<td colspan="3"><font color="white"><b>Metropolis-Hastings and Gibbs combined</b></font>
+	</tr>
+	<tr>
+	<td><a href="https://github.com/vnminin/SISMID_MCMC_I/blob/master/2015/lectures/mc_mcmc2015.pdf" target="_blank">
+	      mc_mcmc2015.pdf</a> 
+	<td><a href="practicals/betabin-lab.pdf" target="_blank">
 		  betabin-lab.pdf</a>
-	    </ul>
-	  <li> <i>R Code</i>: 
-	    <ul>
-	      <li> <a href="code/beta_bin_reduced.R" target="_blank">beta_bin_reduced.R</a>
-	      <li> <a href="code/beta_bin.R" target="_blank">beta_bin.R</a>
-	    </ul>
-	</ol>
-      <li> Chain binomial model revisited
-	<ol type="a">
-	  <li> <i>Notes</i>:
-	    <ul>
-	      <li><a href="lecture-notes/2014_SISMID_5_6.pdf" target="_blank">
-		  2014_SISMID_5_Lecture6.pdf</a>
-	    </ul>
-	  <li> <i>Practicals</i>:
-	    <ul>
-	      <li> <a href="practicals/2014_SISMID_5_Lab6.pdf" target="_blank">
+	<td><a href="code/beta_bin_reduced.R" target="_blank">beta_bin_reduced.R</a>
+	</tr>
+	<tr>
+	<td>(pages 20-21)
+	<td>
+	<td><a href="code/beta_bin.R" target="_blank">beta_bin.R</a>
+	</tr>
+	<tr bgcolor="lightblue">
+	<td colspan="3"><font color="white"><b>Chain binomial model revisited</b></font>
+	</tr>
+	<tr>
+	<td><a href="lecture-notes/2014_SISMID_5_6.pdf" target="_blank">
+		  2014_SISMID_5_Lecture6.pdf</a> 
+	<td> <a href="practicals/2014_SISMID_5_Lab6.pdf" target="_blank">
 		  2014_SISMID_5_Lab6.pdf</a>
-	    </ul>
-	  <li> <i>R Code</i>: 
-	    <ul>
-	      <li> <a href="code/checkmodel_reduced.R" target="_blank">checkmodel_reduced.R</a>
-	      <li> <a href="code/checkmodel.R" target="_blank">checkmodel.R</a>
-	      <li> <a href="code/chain_hierarchical_reduced.R" target="_blank">chain_hierarchical_reduced.R</a>
-	      <li> <a href="code/chain_hierarchical.R" target="_blank">chain_hierarchical.R</a>
-	      <li> <a href="code/check_hierarchical.R" target="_blank">check_hierarchical.R</a>
-	    </ul>
-	</ol>
-      <li> General epidemic model
-	<ol type="a">
-	  <li> <i>Notes</i>: 
-	    <a href="lecture-notes/2014_SISMID_5_7.pdf" target="_blank">
+	<td><a href="code/checkmodel_reduced.R" target="_blank">checkmodel_reduced.R</a>
+	</tr>
+	<tr>
+	<td>
+	<td>
+	<td><a href="code/checkmodel.R" target="_blank">checkmodel.R</a>
+	</tr>
+	<tr>
+	<td>
+	<td>
+	<td><a href="code/chain_hierarchical_reduced.R" target="_blank">chain_hierarchical_reduced.R</a>
+	</tr>
+	<tr>
+	<td>
+	<td>
+	<td><a href="code/chain_hierarchical.R" target="_blank">chain_hierarchical.R</a>
+	</tr>
+	<tr>
+	<td>
+	<td>
+	<td><a href="code/check_hierarchical.R" target="_blank">check_hierarchical.R</a>
+	</tr>
+	<tr bgcolor="lightblue">
+	<td colspan="3"><font color="white"><b>General epidemic model</b></font>
+	</tr>
+	<tr>
+	<td><a href="lecture-notes/2014_SISMID_5_7.pdf" target="_blank">
 	      2014_SISMID_5_Lecture7.pdf</a>
-	  <li> <i>Practical</i>: <a href="practicals/2014_SISMID_5_Lab7.pdf" target="_blank">
+	<td><a href="practicals/2014_SISMID_5_Lab7.pdf" target="_blank">
 	      2014_SISMID_5_Lab7.pdf</a>
-	  <li> <i>R Code</i>: 
-	    <ul>
-	      <li> <a href="code/SIRaugmentation_reduced.R" target="_blank">SIRaugmentation_reduced.R</a>
-	      <li> <a href="code/SIRaugmentation.R" target="_blank">SIRaugmentation.R</a>
-	    </ul>
-	</ol>
-      <li> Monte Carlo error and diagnostics 
-	<ol type="a">
-	  <li> <i>Notes</i>: <a href="lecture-notes/mc_mcmc2014.pdf" target="_blank">
-	      mc_mcmc2014.pdf</a> (pages 21-22)
-	  <li> <i>Practical</i>: <a href="practicals/diagnostics-lab.pdf" target="_blank">
+	<td><a href="code/SIRaugmentation_reduced.R" target="_blank">SIRaugmentation_reduced.R</a>
+	</tr>
+	<tr>
+	<td>
+	<td>
+	<td><a href="code/SIRaugmentation.R" target="_blank">SIRaugmentation.R</a>
+	</tr>
+	<tr bgcolor="lightblue">
+	<td colspan="3"><font color="white"><b>Monte Carlo error and diagnostics</b></font>
+	</tr>
+	<tr>
+	<td><a href="https://github.com/vnminin/SISMID_MCMC_I/blob/master/2015/lectures/mc_mcmc2015.pdf" target="_blank">
+	      mc_mcmc2015.pdf</a>
+	<td><a href="practicals/diagnostics-lab.pdf" target="_blank">
 	      diagnostics-lab.pdf</a>
-	  <li> <i>R Code</i>: 
-	    <ul>
-	      <li><a href="code/diagnostics.R" target="_blank">diagnostics.R</a>
-	    </ul>
-	</ol>
-      <li> SIS model
-	<ol type="a">
-	  <li> <i>Notes</i>: <a href="lecture-notes/2014_SISMID_5_9.pdf" target="_blank">
+	<td><a href="code/diagnostics.R" target="_blank">diagnostics.R</a>
+	</tr>
+	<tr>
+	<td>(pages 21-22)
+	<td>
+	<td>
+	</tr>
+	<tr bgcolor="lightblue">
+	<td colspan="3"><font color="white"><b>SIS model</b></font>
+	</tr>
+	<tr>
+	<td><a href="lecture-notes/2014_SISMID_5_9.pdf" target="_blank">
 	      2014_SISMID_5_Lecture9.pdf</a>
-	  <li> <i>Practical</i>: <a href="practicals/2014_SISMID_5_Lab9.pdf" target="_blank">
+	<td><a href="practicals/2014_SISMID_5_Lab9.pdf" target="_blank">
 	      2014_SISMID_5_Lab9.pdf</a>
-	  <li> <i>R Code</i>: 
-	    <ul>
-	      <li> <a href="code/simulateSIS_N.R" target="_blank">simulateSIS_N.R</a>
-	      <li> <a href="code/MH_SIS.R" target="_blank">MH_SIS.R</a>
-	    </ul>
-	</ol>
-    </ol>
-
-    <br><br>
+	<td><a href="code/simulateSIS_N.R" target="_blank">simulateSIS_N.R</a>
+	</tr>
+	<tr>
+	<td>
+	<td>
+	<td><a href="code/MH_SIS.R" target="_blank">MH_SIS.R</a>
+	</tr>
+	<tr>
+	</table> 
+	
 
     <b>Useful Books</b>:
     <ul>
@@ -254,7 +298,6 @@ SISMID 2015, Module 7: MCMC Methods for Infectious Diseases I</h3>
     </ul>
 
     
-    <br><br>
     
       </section>
       <footer>
