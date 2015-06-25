@@ -94,8 +94,8 @@
 
 \pagestyle{fancy}
 \renewcommand{\headrulewidth}{0.8pt}
-\lhead{\bf \large SISMID, Module 5 Lecture Notes}
-\rhead{\bf Summer 2014}
+\lhead{\bf \large SISMID, Module 7 Lecture Notes}
+\rhead{\bf Summer 2015}
 \chead{} 
 \lfoot{} 
 \rfoot{} 
@@ -118,9 +118,9 @@ options(replace.assign=TRUE,width=90)
 
 \begin{center}
   \textbf{\Large Summer Institute in Statistics and Modeling of Infectious Diseases}\\
-  \textbf{\Large Module 5: MCMC Methods for Infectious Disease Studies}\\
+  \textbf{\Large Module 7: MCMC Methods for Infectious Disease Studies}\\
   {\large Instructors: Kari Auranen, Elizabeth Halloran and Vladimir Minin}\\
-  {\large July 9 -- July 11, 2014}
+  {\large July 13 -- July 15, 2015}
 \end{center}
 
 
