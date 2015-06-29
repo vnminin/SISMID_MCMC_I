@@ -1,0 +1,203 @@
+\documentclass[11pt]{article}
+\setlength{\oddsidemargin}{0cm}
+\setlength{\textwidth}{16.5cm}
+\setlength{\parskip}{0.2cm}
+\setlength{\topmargin}{-1cm}
+\setlength{\textheight}{22.8cm}
+\begin{document}
+\bibliographystyle{plain}
+\addtolength{\baselineskip}{0.0\baselineskip}  
+\pagestyle{myheadings} 
+\markright{MCMC I:  \today} 
+
+\begin{center}
+{\bf  MCMC I \\
+ Course Time Plan  \\
+July 13-15, 2015}  
+\end{center}
+
+\vspace{.2cm}
+
+\noindent
+ {\bf Instructors:} Vladimir Minin,  Kari Auranen, M.\ Elizabeth Halloran\\
+
+\vspace{.3cm}
+
+\noindent
+{\bf Course Description:} This module is an introduction to Markov chain Monte Carlo methods with some simple applications in infectious disease 
+studies.  
+ The course includes an introduction to 
+ Bayesian inference, Monte Carlo, MCMC, some background theory, and convergence diagnostics. Algorithms include Gibbs sampling and Metropolis-Hastings and combinations. Programming is in R. 
+ Familiarity with the R statistical package or other computing language is needed. 
+
+
+
+\noindent
+{\bf Course schedule:}
+The course is composed of 10 90-minute sessions, for a total of 15 hours of instruction. 
+
+
+\section{Introduction to Bayesian Inference} 
+\begin{itemize} 
+\item Overview of the course. 
+\item Bayesian inference: Likelihood, prior, posterior, normalizing constant  
+\item Conjugate priors; Beta-binomial; Poisson-gamma; normal-normal 
+\item Posterior summaries, mean, mode,  posterior intervals   
+\item Motivating examples: Chain binomial model (Reed-Frost), General Epidemic Model,  
+SIS model.
+\item {Lab: }
+\begin{itemize}
+\item Goals:  Warm-up with R for simple Bayesian computation
+%item  Estimating a rate from Poisson data using a Gamma prior distribution (conjugate prior) 
+\item  Example: Posterior distribution of transmission probability with a binomial  sampling distribution using a conjugate beta prior distribution
+\item Summarizing posterior inference (mean, median, posterior quantiles and intervals)
+\item Varying the amount of prior information
+\item Writing an R function
+\end{itemize}
+\end{itemize}
+
+\section{Introduction to Gibbs Sampling}
+\begin{itemize}
+\item Chain binomial model and data augmentation
+\item Brief introduction to Gibbs sampling
+\item Lab
+\begin{itemize}
+\item Goals: Simple data augmentation using MCMC
+\item Example: Gibbs sampler for the chain binomial model.
+\end{itemize}
+\end{itemize}
+
+
+\section{Classical Monte Carlo and Markov chain theory}
+ \begin{itemize}
+ \item Random number generators 
+\item {Non-iterative Monte Carlo methods}
+\begin{itemize}
+\item Classical Monte Carlo and importance sampling%, rejection sampling,
+\end{itemize}
+\item{Basic Markov Chain Theory} 
+\begin{itemize}
+\item Definitions
+\item Stationarity
+\item The ergodic theorem
+\end{itemize}
+\item Lab: 
+\begin{itemize}
+\item Goals: Understanding importance sampling and the ergodic theorem for Markov chains.
+\end{itemize} 
+\end{itemize}
+
+
+\section{Metropolis-Hastings algorithm}
+\begin{itemize}
+\item Construction
+\item Proof of detailed balance
+\item Lab: 
+\begin{itemize}
+\item Goals: elementary missing data imputation on S-I model
+\end{itemize}
+\end{itemize}
+
+\section{Gibbs sampling}
+\begin{itemize}
+\item Relationship with  Metropolis-Hastings
+\item Revisit simple Gibbs sampler for chain-binomial model 
+\end{itemize}
+
+\section{Metropolis-Hasting and Gibbs combined} 
+\begin{itemize}
+\item Example: Hierarchical model
+\item Lab:
+\begin{itemize}
+\item Goals: Combining Metropolis and Gibbs in one algorithm
+\item Example: Beta-binomial hierarchical model with rat data
+\end{itemize}
+\end{itemize}
+
+\section{Chain binomial model revisited} 
+\begin{itemize} 
+\item Hierarchical chain binomial model with hyperparameters
+\begin{itemize}
+\item  Model checking 
+\item Allowing for heterogeneity
+\end{itemize}
+\item Lab: 
+\begin{itemize}
+\item Goals: Combined M-H and Gibbs and learning model checking
+\item   Example: Hierarchical beta-binomial chain binomial model
+\end{itemize}
+\end{itemize}
+
+
+\section{General Epidemic Model}
+\begin{itemize}
+\item The general epidemic model and incompletely observed data 
+\item Algorithm
+\item {Lab: General epidemic model}
+\begin{itemize}
+\item  Goals: parameter estimation with data augmentation
+\item Example: smallpox transmission
+\end{itemize}
+\end{itemize}
+
+\section{Diagnostics, etc}
+\begin{itemize}
+\item Assessing convergence (more or less), Coda 
+\item Variance reduction, Monte Carlo error
+\item Poisson process 
+\item{Lab: Diagnostics}
+\begin{itemize}
+\item Goals: learn how to do basic diagnostics on chain and output
+\item Coda 
+\item Diagnostics on previous examples
+\end{itemize}
+\end{itemize}
+
+\section{SIS model}
+\begin{itemize}
+\item  Binary Markov process model for a recurrent infection
+\item Likelihood
+%\item  Reversible jump MCMC 
+\item Algorithm
+\item{Lab: Estimating rates in simple SIS model}
+\begin{itemize}
+\item Goals: Data simulation and parameter estimation from complete data in a simple SIS model.
+\item Example: simulate one long chain in one person
+%\item Data augmentation through reversible jump MCMC 
+\item Estimating rates from complete data
+%\item Estimating rates from panel data
+\item Diagnostics
+\end{itemize}
+\end{itemize}
+
+
+\end{document}
+
+
+
+
+\bibliography{../BIB/jul87,../BIB/oct88,../BIB/mar88,../BIB/inf90,../BIB/us,../BIB/flu,../BIB/surv}
+%\bibliography{/home/mehallo/bear/TEX/surv,/home/mehallo/bear/TEX/us}
+
+\end{document}
+
+\vspace{.2cm}
+
+\noindent
+{\bf Learning Objectives:} At the end of this course, the participant should be able to 
+\begin{enumerate}
+\item Draft
+\end{enumerate} 
+
+
+\vspace{.2cm}
+\noindent
+{\bf Textbooks and readings:}
+ \begin{itemize}
+ \item A
+\item B
+\end{itemize}
+
+
+
+
