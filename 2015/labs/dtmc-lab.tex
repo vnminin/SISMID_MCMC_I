@@ -1,0 +1,137 @@
+\documentclass[11pt]{article}
+
+\setlength{\oddsidemargin}{0.1in}
+\setlength{\textwidth}{6.5in}
+\setlength{\topmargin}{-0.5in}
+\setlength{\textheight}{9in}
+\renewcommand{\baselinestretch}{1.3} 
+
+\usepackage{fancyhdr}
+%%\usepackage{fullpage}
+%%\usepackage{subfigure}
+\usepackage{latexsym}
+\usepackage{wrapfig}
+\usepackage{graphicx}
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{natbib}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\numberwithin{algorithm}{section}
+%%\usepackage{amsfonts}
+%\usepackage{nopageno}
+
+%%\usepackage{graphicx}        % standard LaTeX graphics tool
+                             % when including figure files
+%%\usepackage{multicol}        % used for the two-column index
+%%\usepackage[bottom]{footmisc}% places footnotes at page bottom
+
+
+%% my additional packages 
+%%\usepackage{lscape}
+%%\usepackage{fancybox}
+%%\usepackage{amsfonts,amssymb,amsfonts,amsmath}
+%%\usepackage{threeparttable}
+
+
+
+
+%\newcommand{\draftnote}[1]{\marginpar{\tiny\raggedright\textsf{\hspace{0pt}{\bf Comments}:#1}}}
+%\newcommand{\draftnote}[1]{}
+
+%%\DeclareMathOperator*{\argmax}{arg\,max}
+
+\newcommand{\cprob}[2]{\ensuremath{\text{Pr}\left(#1 \,|\,#2\right)}}  
+\newcommand{\prob}[1]{\ensuremath{\text{Pr}\left(#1 \right)}}
+\newcommand{\cexpect}[4]{\ensuremath{\text{E}\left#3 #1 \,|\,#2\right#4}}  
+\newcommand{\expect}[3]{\ensuremath{\text{E}\left#2 #1 \right#3}}
+
+\newcommand{\fder}[1]{\frac{d}{d #1}}
+\newcommand{\hder}[2]{\frac{d^{#2}}{d {#1}^{#2}}}
+\newcommand{\fpart}[1]{\frac{\partial}{\partial #1}}
+\newcommand{\hpart}[2]{\frac{\partial^{#2}}{\partial {#1}^{#2}}}
+\newcommand{\iid}{\ensuremath{\overset{\text{iid}}{\sim}}}
+\newcommand{\indfun}[1]{\ensuremath{1_{\{#1\}}}}
+\newcommand{\asarrow}{\ensuremath{\overset{\text{a.s.}}{\rightarrow}}}
+\newcommand{\parrow}{\ensuremath{\overset{\text{P}}{\rightarrow}}}
+\newcommand{\darrow}{\ensuremath{\overset{\text{D}}{\rightarrow}}}
+\newcommand{\mydef}{\ensuremath{\overset{\text{def}}{=}}}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\newtheorem*{theorem}{Theorem}
+\newtheorem*{prop}{Proposition}
+\newtheorem*{corollary}{Corollary}
+\newtheorem*{lemma}{Lemma}
+
+\theoremstyle{remark}
+\newtheorem*{mynote}{Note}
+
+\theoremstyle{definition}
+\newtheorem*{define}{Definition}
+
+\newenvironment{example}[1]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries Example}: \underline{#1}]\ \\}{\end{trivlist}}
+
+\newenvironment{Proof}{\begin{trivlist}
+\item[\hskip \labelsep \textit{Proof}:]}{\end{trivlist}}
+
+\newenvironment{exercise}{\begin{trivlist}
+\item[\hskip \labelsep \textit{Exercise}:]}{\end{trivlist}}
+
+\newcommand{\todo}[1]{\begin{center}To do: {\bf #1}\end{center}}
+
+%% group numberging of equations and figures by section
+
+\numberwithin{equation}{section}
+\numberwithin{figure}{section}
+
+\bibliographystyle{plainnat}
+
+
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0.8pt}
+\lhead{\bf \large SISMID, Module 7 Practicals}
+\rhead{\bf Summer 2015}
+\chead{} 
+\lfoot{} 
+\rfoot{} 
+\cfoot{}
+
+\begin{document}
+
+\setkeys{Gin}{width=1.0\textwidth}
+
+
+\begin{center}
+  \textbf{\Large Practical: Monte Carlo and Markov chain theory}\\
+  {\large Instructors: Kari Auranen, Elizabeth Halloran and Vladimir Minin}\\
+  {\large July 13 -- July 15, 2015}
+\end{center}
+
+
+\section*{Estimating the tail of the standard normal distribution}
+Let $Z \sim \mathcal{N}(0,1)$. We would like to estimate the tail probability 
+$\text{Pr}(Z > c)$, where $c$ is large (e.g. $c = 4.5$). 
+
+\subsection*{Your task}
+Implement naive and importance sampling Monte Carlo estimates of $\text{Pr}(Z>4.5)$, where
+$Z \sim \mathcal{N}(0,1)$. Download `import\_sampl\_reduced.R' from 
+the course web page. The code has a couple of things to get you started.
+
+\section*{Ehrenfest model of diffusion}
+  Consider the Ehrenfest model with $N=100$ gas molecules. From our derivations we know that 
+  the stationary distribution of the chain is $\text{Bin}(\frac{1}{2},N)$. The chain is irreducible
+  and positive recurrent (why?). The stationary variance can be computed analytically as 
+  $N\times\frac{1}{2}\times\frac{1}{2}$. 
+
+\subsection*{Your task}
+Use ergodic theorem to approximate the stationary variance and compare your estimate with the analytical result.
+Don't panic! You will not have to write everything from scratch. Download `ehrenfest\_diff\_reduced.R' file from the course
+web page. Follow comments in this R script to fill gaps in the code. 
+
+
+
+
+\end{document}
+
