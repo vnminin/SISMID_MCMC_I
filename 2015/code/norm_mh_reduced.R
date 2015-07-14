@@ -17,7 +17,7 @@ unif_rw_next = function(cur_value, tuning_par){
   return(return_value)      
 }
 
-mcmc.size = 10000
+mcmc_size = 10000
 start.value = 3.0
 
 

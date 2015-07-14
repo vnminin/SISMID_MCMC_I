@@ -966,7 +966,7 @@ straightforward to formulate an MCMC algorithm, while the same is not true for c
 Recall that our objective in MCMC is the same as in classical Monte Carlo: to estimate expectations of 
 the form
 \begin{equation*}
-  \text{E}_{\boldsymbol{\pi}}(h(\mathbf{x}) = \sum_{\boldsymbol{x} \in E} \pi_{\boldsymbol{x}} h(\mathbf{x}).
+  \text{E}_{\boldsymbol{\pi}}[h(\mathbf{x})] = \sum_{\boldsymbol{x} \in E} \pi_{\boldsymbol{x}} h(\mathbf{x}).
 \end{equation*}
 Notice that here we assume that our state space is discrete so the above expectation is a finite sum.
 However we assume that the size of $E$ is so large that carrying out this summation even on fastest computers
@@ -982,7 +982,7 @@ The question is how to construct such a Markov chain, $\{X_n\}$.
 
 \subsubsection{Metropolis-Hastings algorithm}
 As always in MCMC, we start with a target distribution $\boldsymbol{\pi}$. 
-Given some initial value $X_0 = x_0$, we construct a Markov chain according to the following set of rules.
+Given some initial value $X_0 = x_0$, we construct a Markov chain according to the following set of rules \citep{Hastings1970}.
 \begin{algorithm}
 \caption{Metropolis-Hastings Algorithm: approximate $\text{E}_{\boldsymbol{\pi}}[h(\mathbf{x})]$}
 \label{accept-reject}
@@ -1021,7 +1021,7 @@ Let $\mathbf{P} = \{p_{ij}\}$ be the transition matrix for $X_n$. Then for $i \n
 \end{equation*}
 Again, for $i \ne j$,
 \begin{equation*}
-  \pi_i p_{ij} = \pi a_{ij} q(j \,|\, i) = 
+  \pi_i p_{ij} = \pi_i a_{ij} q(j \,|\, i) = 
   \begin{cases}
     \pi_i q(j \,|\, i) \dfrac{\pi_j q(i \,|\, j)}{\pi_i q(j \,|\, i)} & \text{ if }
     \dfrac{\pi_j q(i \,|\, j)}{\pi_i q(j \,|\, i)} \le 1 \\
@@ -1063,7 +1063,8 @@ $\boldsymbol{\pi}$ is a stationary distribution.$\qed$
 
 \begin{mynote}
   We do not need a normalizing constant of $\boldsymbol{\pi}$ in order to
-  execute the Metropolis-Hastings algorithm.
+  execute the Metropolis-Hastings algorithm. This is important, because in most applications of MCMC (e.g., Bayesian statistics)
+  the target distribution is not normalized and the normalization constant is unknown. 
 \end{mynote}
 
 \begin{example}{Toric Ising model on a circle}
@@ -1106,7 +1107,7 @@ $\boldsymbol{\pi}$ is a stationary distribution.$\qed$
 Variants of Metropolis-Hastings:
 \begin{enumerate}
  \item $q(i\,|\, j) = q(j\,|\, i)$ - symmetric proposal.  This is the
-   original Metropolis algorithm.  Here, the acceptance probability
+   original Metropolis algorithm \citep{Metropolis1953}.  Here, the acceptance probability
    simplifies to $a_{ij} = \min\left\{ \frac{\pi_j}{\pi_i}, 1 \right\}$.
    So we move to a more probable state with probability 1, and move
    to less probable states sometimes (more rarely if the candidate
