@@ -28,7 +28,7 @@ for (i in 2:sim_size){
 
 ## plot the chain
 
-plot(1:sim_size, my.draws, type="l", ylab="Ehhenfest State", xlab="Time Step")
+plot(1:sim_size, my_draws, type="l", ylab="Ehhenfest State", xlab="Time Step")
 
 ## get the "time averages"
 
