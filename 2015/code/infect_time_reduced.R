@@ -33,7 +33,7 @@ inf_time_mcmc = function(start_inf_time, inf_rate, clear_rate, total_time, win_h
     ## 2. Decide whether to accept or reject the proposed value by computing
     ## the Metropolis-Hastings ratio
     ## 3. Save the current or proposed value in result.mat[i,1]
-    ##    Save the complete-data likelihood evaluated either at the current
+    ##    Save the complete-data log-likelihood evaluated either at the current
     ##    or proposed value of the infection time in result.mat[i,2]
     ##    Save the indicator of the acceptance in result.mat[i,3]
   }
@@ -43,8 +43,7 @@ inf_time_mcmc = function(start_inf_time, inf_rate, clear_rate, total_time, win_h
 
 
 ## run the above functions
-
-test_sample = inf_time_mcmc(0.1, 0.3, 10.2, 1.0, 0.2, 10000)
+test_sample = inf_time_mcmc(start_inf_time=0.1, inf_rate=0.3, clear_rate=10.2, total_time=1.0, win_half_len=0.2, chain_len=10000)
 
 summary(test_sample[1000:10000,])
 
