@@ -6,67 +6,67 @@
 ##                                \alpha ~ Exp(0.1)
 ##                                 \beta ~ Exp(0.1)
 ## Author: Vladimir N. Minin
-## last update: 07/11/2014
+## last update: 07/14/2015
 ##################################################################################
 
 
-propose.pospar = function(cur.pospar, prop.unif, tuning.const){
-  return(cur.pospar*exp(tuning.const*(prop.unif-0.5)))
+propose_pospar = function(cur_prospar, prop_unif, tuning_const){
+  return(cur_prospar*exp(tuning_const*(prop_unif-0.5)))
 }
 
-log.prop.dens = function(prop.pospar){
-  return(-log(prop.pospar))
+log_prop_dens = function(prop_pospar){
+  return(-log(prop_pospar))
 }
 
-log.posterior = function(my.alpha, my.beta, theta.vec, my.data, sample.size, prior.inten.alpha, prior.inten.beta){
+log_posterior = function(my_alpha, my_beta, theta_vec, my_data, sample_size, prior_inten_alpha, prior_inten_beta){
 
-  return(sample.size*(lgamma(my.alpha+my.beta)-lgamma(my.alpha)-lgamma(my.beta))+sum((my.data$x+my.alpha-1)*log(theta.vec))+sum((my.data$n-my.data$x+my.beta-1)*log(1-theta.vec))-prior.inten.alpha*my.alpha -prior.inten.beta*my.beta)  
+  return(sample_size*(lgamma(my_alpha+my_beta)-lgamma(my_alpha)-lgamma(my_beta))+sum((my_data$x+my_alpha-1)*log(theta_vec))+sum((my_data$n-my_data$x+my_beta-1)*log(1-theta_vec))-prior_inten_alpha*my_alpha -prior_inten_beta*my_beta)  
 }
 
 ## relevant terms of the posterior distribution that depend on alpha
 ## transformed to the log scale
 
-log.alpha.posterior = function(my.alpha, my.beta, theta.vec, my.data, sample.size, prior.inten){
+log_alpha_posterior = function(my_alpha, my_beta, theta_vec, my_data, sample_size, prior_inten){
   ## contribution of alpha densities
-  beta.dens.bit = sample.size*(lgamma(my.alpha+my.beta)-lgamma(my.alpha))+sum((my.data$x+my.alpha-1)*log(theta.vec))
+  beta_dens_bit = sample_size*(lgamma(my_alpha+my_beta)-lgamma(my_alpha))+sum((my_data$x+my_alpha-1)*log(theta_vec))
   
   ## contribution of the prior
-  prior.bit = -prior.inten*my.alpha
+  prior_bit = -prior_inten*my_alpha
 
-  return(beta.dens.bit+prior.bit)
+  return(beta_dens_bit+prior_bit)
 }
 
-log.beta.posterior = function(my.alpha, my.beta, theta.vec, my.data, sample.size, prior.inten){
+log_beta_posterior = function(my_alpha, my_beta, theta_vec, my_data, sample_size, prior_inten){
   ## contribution of beta densities
-  beta.dens.bit = sample.size*(lgamma(my.alpha+my.beta)-lgamma(my.beta))+ sum((my.data$n-my.data$x+my.beta-1)*log(1-theta.vec))
+  beta_dens_bit = sample_size*(lgamma(my_alpha+my_beta)-lgamma(my_beta))+ sum((my_data$n-my_data$x+my_beta-1)*log(1-theta_vec))
   
   ## contribution of the prior
-  prior.bit = -prior.inten*my.beta
+  prior_bit = -prior_inten*my_beta
 
-  return(beta.dens.bit+prior.bit)
+  return(beta_dens_bit+prior_bit)
 }
 
-mcmc.sampler = function(my.data, init.alpha, init.beta, prior.inten.alpha, prior.inten.beta,
-  tuning.alpha, tuning.beta, mcmc.size, mcmc.burnin,mcmc.subsample){
+mcmc_sampler = function(my_data, init_alpha, init_beta, prior_inten_alpha, prior_inten_beta,
+  tuning_alpha, tuning_beta, mcmc_size, mcmc_burnin,mcmc_subsample){
 
-  data.sample.size = dim(my.data)[1]
+  data_sample_size = dim(my_data)[1]
 
   ## prepare an MCMC output matrix
-  mcmc.out = matrix(0, nrow=(mcmc.size-mcmc.burnin)/mcmc.subsample, ncol=data.sample.size+6)
-  colnames(mcmc.out) = c("iter", "posterior", "alpha", "beta", "alpha.acc", "beta.acc",
-            paste(rep("theta",data.sample.size),c(1:data.sample.size)))
+  mcmc_out = matrix(0, nrow=(mcmc_size-mcmc_burnin)/mcmc_subsample, ncol=data_sample_size+6)
+  colnames(mcmc_out) = c("iter", "posterior", "alpha", "beta", "alpha.acc", "beta.acc",
+            paste(rep("theta",data_sample_size),c(1:data_sample_size)))
 
-  cur.alpha = init.alpha
-  cur.beta = init.beta
-  step.count = mcmc.subsample-1
+  cur_alpha = init_alpha
+  cur_beta = init_beta
+  step_count = mcmc_subsample-1
   
-  for (i in 1:mcmc.size){
-    cur.alpha.acc = 0
-    cur.beta.acc = 0
+  for (i in 1:mcmc_size){
+    cur_alpha_acc = 0
+    cur_beta_acc = 0
     
     ## Gibbs step for the components of theta
     ## TO DO: IMPLEMENT GIBSS STEP HERE
-    cur.theta = rep(0.5, data.sample.size)
+    cur_theta = rep(0.5, data_sample_size)
 
     
     ## Metropolis step for alpha
@@ -76,62 +76,61 @@ mcmc.sampler = function(my.data, init.alpha, init.beta, prior.inten.alpha, prior
     ## TO DO: IMPLEMENT M-H STEP HERE FOR BETA
     
 
-    if (i > mcmc.burnin){
+    if (i > mcmc_burnin){
       
-      step.count = step.count+1
+      step_count = step_count+1
       
-      if(step.count==mcmc.subsample){
-        my.index = (i-mcmc.burnin+mcmc.subsample-1)/mcmc.subsample
-        mcmc.out[my.index,1]=i
-        mcmc.out[my.index,2]=log.posterior(cur.alpha, cur.beta, cur.theta, my.data, data.sample.size, prior.inten.alpha,prior.inten.beta)
-        mcmc.out[my.index,3]=cur.alpha
-        mcmc.out[my.index,4]=cur.beta
-        mcmc.out[my.index,5]=cur.alpha.acc
-        mcmc.out[my.index,6]=cur.beta.acc
-        mcmc.out[my.index,7:(data.sample.size+6)] = cur.theta
+      if(step_count==mcmc_subsample){
+        my_index = (i-mcmc_burnin+mcmc_subsample-1)/mcmc_subsample
+        mcmc_out[my_index,1]=i
+        mcmc_out[my_index,2]=log_posterior(cur_alpha, cur_beta, cur_theta, my_data, data_sample_size, prior_inten_alpha,prior_inten_beta)
+        mcmc_out[my_index,3]=cur_alpha
+        mcmc_out[my_index,4]=cur_beta
+        mcmc_out[my_index,5]=cur_alpha_acc
+        mcmc_out[my_index,6]=cur_beta_acc
+        mcmc_out[my_index,7:(data_sample_size+6)] = cur_theta
         
-        step.count=0
+        step_count=0
       }
     }
   }
 
-  return(mcmc.out)
+  return(mcmc_out)
 }
 
 ## run the sampler
 
-rat.data = read.table("http://www.stat.washington.edu/vminin/SISMID/2012/code/rat_tumor.txt", header=TRUE)
-num.col = dim(rat.data)[1]
+rat_data = read.table("http://www.stat.washington.edu/vminin/SISMID/2012/code/rat_tumor.txt", header=TRUE)
 
 
-rat.results = mcmc.sampler(my.data=rat.data,
-             init.alpha=1.0,
-             init.beta=1.0,
-             prior.inten.alpha=0.1,
-             prior.inten.beta=0.1,
-             tuning.alpha=0.7,
-             tuning.beta=0.7,
-             mcmc.size=110000,
-             mcmc.burnin=10000,
-             mcmc.subsample=10)
+rat_results = mcmc_sampler(my_data=rat_data,
+             init_alpha=1.0,
+             init_beta=1.0,
+             prior_inten_alpha=0.1,
+             prior_inten_beta=0.1,
+             tuning_alpha=0.7,
+             tuning_beta=0.7,
+             mcmc_size=110000,
+             mcmc_burnin=10000,
+             mcmc_subsample=10)
 
 
-print(mean(rat.results[,"alpha.acc"]))
-print(mean(rat.results[,"beta.acc"]))
+print(mean(rat_results[,"alpha.acc"]))
+print(mean(rat_results[,"beta.acc"]))
 
 
 layout(matrix(c(1,1,1,1,2,2,3,3,4,5,5,6), 3, 4, byrow = TRUE),widths=c(1,0.5,0.5,1))
 
 par(mar=c(5,4,4,1))
-boxplot(as.data.frame(rat.results[,-c(1:6)]),
+boxplot(as.data.frame(rat_results[,-c(1:6)]),
         ylab="Bin Success Prob",las=2,cex.axis=0.8)
 
-hist(rat.results[,"alpha"],xlab=expression(alpha),main="")
+hist(rat_results[,"alpha"],xlab=expression(alpha),main="")
 box()
-hist(rat.results[,"beta"],xlab=expression(beta), main="")
+hist(rat_results[,"beta"],xlab=expression(beta), main="")
 box()
 
 par(mar=c(7,4,2,2))
-plot(rat.results[,"posterior"],type="l",ylab="Log-Posterior",xlab="Iteration")
-plot(rat.results[,"alpha"],type="l",ylab=expression(alpha),xlab="Iteration")
-plot(rat.results[,"beta"],type="l",ylab=expression(beta),xlab="Iteration")
+plot(rat_results[,"posterior"],type="l",ylab="Log-Posterior",xlab="Iteration")
+plot(rat_results[,"alpha"],type="l",ylab=expression(alpha),xlab="Iteration")
+plot(rat_results[,"beta"],type="l",ylab=expression(beta),xlab="Iteration")
