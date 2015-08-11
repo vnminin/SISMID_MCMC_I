@@ -40,7 +40,7 @@ autocorr.plot(coda.gibbs.chain)
 effectiveSize(coda.gibbs.chain)
 
 
-## Run 10 chains with overdispersed starting values
+## Run 50 chains with overdispersed starting values
 coda.gibbs.chains = list()
 
 for (i in 1:50){
@@ -48,7 +48,8 @@ for (i in 1:50){
   coda.gibbs.chains[[i]] = mcmc(cbind(gibbs.chain$q,gibbs.chain$n111))
 }
 
-coda.gibbs.list = mcmc.list(coda.gibbs.chains)
+coda.gibbs.l
+ist = mcmc.list(coda.gibbs.chains)
 
 plot(coda.gibbs.list)
 
