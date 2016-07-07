@@ -1,0 +1,194 @@
+\documentclass[11pt]{article}
+
+\setlength{\oddsidemargin}{0.1in}
+\setlength{\textwidth}{6.5in}
+\setlength{\topmargin}{-0.5in}
+\setlength{\textheight}{9in}
+\renewcommand{\baselinestretch}{1.3} 
+
+\usepackage{fancyhdr}
+%%\usepackage{fullpage}
+%%\usepackage{subfigure}
+\usepackage{latexsym}
+\usepackage{wrapfig}
+\usepackage{graphicx}
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{natbib}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+%\numberwithin{algorithm}{chapter}
+%%\usepackage{amsfonts}
+%\usepackage{nopageno}
+
+%%\usepackage{graphicx}        % standard LaTeX graphics tool
+                             % when including figure files
+%%\usepackage{multicol}        % used for the two-column index
+%%\usepackage[bottom]{footmisc}% places footnotes at page bottom
+
+
+%% my additional packages 
+%%\usepackage{lscape}
+%%\usepackage{fancybox}
+%%\usepackage{amsfonts,amssymb,amsfonts,amsmath}
+%%\usepackage{threeparttable}
+
+
+
+
+%\newcommand{\draftnote}[1]{\marginpar{\tiny\raggedright\textsf{\hspace{0pt}{\bf Comments}:#1}}}
+%\newcommand{\draftnote}[1]{}
+
+%%\DeclareMathOperator*{\argmax}{arg\,max}
+
+\newcommand{\cprob}[2]{\ensuremath{\text{Pr}\left(#1 \,|\,#2\right)}}  
+\newcommand{\prob}[1]{\ensuremath{\text{Pr}\left(#1 \right)}}
+\newcommand{\cexpect}[4]{\ensuremath{\text{E}\left#3 #1 \,|\,#2\right#4}}  
+\newcommand{\expect}[3]{\ensuremath{\text{E}\left#2 #1 \right#3}}
+
+\newcommand{\fder}[1]{\frac{d}{d #1}}
+\newcommand{\hder}[2]{\frac{d^{#2}}{d {#1}^{#2}}}
+\newcommand{\fpart}[1]{\frac{\partial}{\partial #1}}
+\newcommand{\hpart}[2]{\frac{\partial^{#2}}{\partial {#1}^{#2}}}
+\newcommand{\iid}{\ensuremath{\overset{\text{iid}}{\sim}}}
+\newcommand{\indfun}[1]{\ensuremath{1_{\{#1\}}}}
+\newcommand{\asarrow}{\ensuremath{\overset{\text{a.s.}}{\rightarrow}}}
+\newcommand{\parrow}{\ensuremath{\overset{\text{P}}{\rightarrow}}}
+\newcommand{\darrow}{\ensuremath{\overset{\text{D}}{\rightarrow}}}
+\newcommand{\mydef}{\ensuremath{\overset{\text{def}}{=}}}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\newtheorem*{theorem}{Theorem}
+\newtheorem*{prop}{Proposition}
+\newtheorem*{corollary}{Corollary}
+\newtheorem*{lemma}{Lemma}
+
+\theoremstyle{remark}
+\newtheorem*{mynote}{Note}
+
+\theoremstyle{definition}
+\newtheorem*{define}{Definition}
+
+\newenvironment{example}[1]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries Example}: \underline{#1}]\ \\}{\end{trivlist}}
+
+\newenvironment{Proof}{\begin{trivlist}
+\item[\hskip \labelsep \textit{Proof}:]}{\end{trivlist}}
+
+\newenvironment{exercise}{\begin{trivlist}
+\item[\hskip \labelsep \textit{Exercise}:]}{\end{trivlist}}
+
+\newcommand{\todo}[1]{\begin{center}To do: {\bf #1}\end{center}}
+
+%% group numberging of equations and figures by section
+
+\numberwithin{equation}{section}
+\numberwithin{figure}{section}
+
+\bibliographystyle{plainnat}
+
+
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0.8pt}
+\lhead{\bf \large SISMID, Module 7 Practicals}
+\rhead{\bf Summer 2016}
+\chead{} 
+\lfoot{} 
+\rfoot{} 
+\cfoot{}
+
+\begin{document}
+
+\setkeys{Gin}{width=1.0\textwidth}
+
+
+\begin{center}
+  \textbf{\Large Practical: Combining Gibbs and Metropolis-Hastings Kernels}\\
+  {\large Instructors: Kari Auranen, Elizabeth Halloran and Vladimir Minin}\\
+  {\large July 13 -- July 15, 2016}
+\end{center}
+
+\section{Beta-binomial hierarchical model}
+  Let $\mathbf{x} = (x_1,\dots,x_n)$, where $x_i\,|\,\theta_i \sim \text{Bin}(n_i,\theta_i)$ and $x_i$s are 
+  independent given $\theta_i$s. We further assume that $\theta_i \iid \text{Beta}(\alpha,\beta)$. We group
+  all success probabilities into a vector $\boldsymbol{\theta} = (\theta_1,\dots,\theta_n)$ and put 
+  a prior distribution on hyper-parameters $\alpha$ and $\beta$, $\prob{\alpha,\beta}$. Under our assumptions,
+  the posterior distribution becomes
+  \[
+  \cprob{\boldsymbol{\theta}, \alpha, \beta}{\mathbf{x}} \propto 
+  \cprob{\mathbf{x}}{\boldsymbol{\theta},\alpha,\beta}\prob{\boldsymbol{\theta}, \alpha, \beta} \propto
+  \prob{\alpha,\beta} \prod_{i=1}^n \frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)} \theta_i^{\alpha-1}
+  (1-\theta_i)^{\beta -1} \prod_{i=1}^n \theta_i^{x_i} (1-\theta_i)^{n_i-x_i}.
+  \]
+  We can compute the posterior up to a proportionality constant, but this does not mean that we can compute
+  expectations with respect to the posterior. We will tackle this problem with Markov chain Monte Carlo.
+
+  The full condition distribution of $\theta_i$ is
+  \[
+  \cprob{\theta_i}{\mathbf{x},\alpha,\beta,\boldsymbol{\theta}_{-i}} \propto 
+  \theta^{x_i+\alpha-1}(1-\theta_i)^{n_i-x_i+\beta-1}.
+  \]
+  Therefore, 
+  \[
+  \theta_i \mid \mathbf{x}, \alpha, \beta, \boldsymbol{\theta}_{-i} \sim 
+  \text{Beta}(x_i+\alpha, n_i - x_i + \beta).
+  \]
+  Sampling from 
+  $\cprob{\alpha,\beta}{\mathbf{x},\boldsymbol{\theta}}$ directly is difficult, so we will use 
+  two  Metropolis-Hastings steps to update $\alpha$ and $\beta$. To propose new values of $\alpha$ and 
+  $\beta$, we will multiply their current 
+  values by $e^{\lambda(U-0.5)}$, where $U \sim U[0,1]$ and $\lambda$ is a tuning constant. 
+  The proposal density is
+  \[
+  q(y_{\text{new}}\,|\,y_{\text{cur}}) = \frac{1}{\lambda y_{\text{new}}}.
+  \]
+  This proposal is not symmetric, so we will have to include it into the M-H acceptance ratio.
+  \begin{algorithm}
+    \caption{MCMC for the beta-binomial hierarchical model}
+    \label{giibs}
+    \begin{algorithmic}[1]
+      \STATE Start with some initial values $(\boldsymbol{\theta}^{(0)},\alpha^{(0)},\beta^{(0)})$.
+      \FOR{$t=0$ to $N$}
+      \FOR{$i=0$ to $n$}
+      \STATE Sample $\theta_i^{(t+1)} \sim \text{Beta}(x_i + \alpha^{(t)}, n_i-x_i+\beta^{(t)})$
+      \ENDFOR
+      \STATE Generate $U_1 \sim U[0,1]$ and set $\alpha^* = \alpha^{(t)}e^{\lambda_{\alpha}(U_1-0.5)}$. Generate 
+      $U_2 \sim U[0,1]$ and set
+      \[
+      \alpha^{(t+1)} = 
+      \begin{cases}
+        \alpha^* &\text{ if } 
+        U_2 \le \min\left\{\frac{
+            \cprob{\boldsymbol{\theta}^{(t+1)},\alpha^*,\beta^{(t)}}{\mathbf{x}}q(\alpha^{(t)}\mid \alpha^*)}
+          {\cprob{\boldsymbol{\theta}^{(t+1)},\alpha^{(t)},\beta^{(t)}}{\mathbf{x}}q(\alpha^*\mid \alpha^{(t)})},
+          1\right\},\\
+        \alpha^{(t)} & \text{ otherwise}.
+      \end{cases}
+      \]
+      \STATE Generate $U_3 \sim U[0,1]$ and set $\beta^* = \beta^{(t)}e^{\lambda_{\beta}(U_3-0.5)}$. Generate 
+      $U_4 \sim U[0,1]$ and set
+      \[
+      \beta^{(t+1)} = 
+      \begin{cases}
+        \beta^* &\text{ if } 
+        U_4 \le \min\left\{\frac{
+            \cprob{\boldsymbol{\theta}^{(t+1)},\alpha^{(t+1)},\beta^*}{\mathbf{x}}q(\beta^{(t)}\mid \beta^*)}
+          {\cprob{\boldsymbol{\theta}^{(t+1)},\alpha^{(t+1)},\beta^{(t)}}{\mathbf{x}}q(\beta^*\mid \beta^{(t)})},
+          1\right\},\\
+        \beta^{(t)} & \text{ otherwise}.
+      \end{cases}
+      \]
+    \ENDFOR
+    \RETURN $(\boldsymbol{\theta}^{(t)},\alpha^{(t)},\beta^{(t)})$, for $t=1,\dots,N$.
+  \end{algorithmic}
+\end{algorithm}
+
+\subsection*{Your task}
+Download the file "beta\_bin\_reduced.R" from the module web site. We will go through this R script together at first. After you become familiar
+with data structures used in the script, you will fill in two gaps, marked by "TO DO" comments in the script. Your first task is to replace the 
+line "cur.theta = rep(0.5, data.sample.size)" in the script with code that implements the Gibbs update. Your second task is to implement the M-H steps to sample $\alpha$ and $\beta$. The file "beta\_bin\_reduced.R"  contains functions that implement the described proposal mechanism and all the pieces necessary for the acceptance probability. The full MCMC algorithm is outlined on the next page.
+
+
+\end{document}
+
