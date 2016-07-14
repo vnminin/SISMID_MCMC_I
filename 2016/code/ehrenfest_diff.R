@@ -1,35 +1,38 @@
 ## This script illustrates the ergodic theorem using the Ehrenfest model of diffusion
 ## Author: Vladimir N. Minin
-## last update: 07/13/2016
+## last update: 07/12/2015
 
 ## this function randomly draws a new state of the Ehrenfest model
-## One of your tasks is to finish writing this function
-next_state = function(cur.state, num.mol){
+
+next_state = function(cur_state, num_mol){
   return.value=NULL
   
-  return(return.value)
+  if (runif(1)<cur_state/num_mol){
+    return_value = cur_state-1
+  }else{
+    return_value = cur_state+1
+  }
+  
+  return(return_value)
 }
 
 ## set the number of molecules and the number of iterations
 my_num_mol = 100
 sim_size = 1000
 
-## initialize the chain by drawing the initial state uniformly at random from all possible states. R function `sample()' will be handy.
+## initialize the chain by drawing the initial state uniformly at random from all possible states
 my_draws = numeric(sim_size)
-#my_draws[1] = FINISH AND UNCOMMENT THIS LINE
+my_draws[1] = sample(c(0:my_num_mol), size=1)
 
 ## run the Markov chain
 
 for (i in 2:sim_size){
-  ## use next.state function to evolve the Markov chain one step at a time
-  
-  #my_draws[i] = FINISH AND UNCOMMENT THIS LINE
+  my_draws[i] = next_state(my_draws[i-1], my_num_mol)
 }
 
 ## plot the chain
 
 plot(1:sim_size, my_draws, type="l", ylab="Ehhenfest State", xlab="Time Step")
-)
 
 ## get the "time averages"
 

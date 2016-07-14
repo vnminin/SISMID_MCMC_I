@@ -4,7 +4,7 @@
 
 ## define a threshold value and number of Monte Carlo samples
 my_const = 4.5
-sim_size = 10000
+sim_size = 10000000
 
 ## true probability of interest
 (true_prob = pnorm(my_const,lower.tail=FALSE))
@@ -27,7 +27,7 @@ print(is_est)
 
 ## Computing Monte Carlo variances
 
-(naive_var_mc = var(naive_samples))
+(naive_var_mc = var(naive_samples)/sim_size)
 (is_var_mc = var(is_samples)/sim_size)
 
 ## Computing Monte Carlo confidence intervals
