@@ -18,11 +18,11 @@ next_state = function(cur_state, num_mol){
 
 ## set the number of molecules and the number of iterations
 my_num_mol = 100
-sim_size = 1000
+sim_size = 10000
 
 ## initialize the chain by drawing the initial state uniformly at random from all possible states
 my_draws = numeric(sim_size)
-my_draws[1] = sample(c(0:my_num_mol), size=1)
+my_draws[1] = 100#sample(c(0:my_num_mol), size=1)
 
 ## run the Markov chain
 
