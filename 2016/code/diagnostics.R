@@ -44,7 +44,7 @@ effectiveSize(coda.gibbs.chain)
 coda.gibbs.chains = list()
 
 for (i in 1:50){
-  gibbs.chain = chainGibbsRandomStart(1000,1,1,sample(0:275,size=1))
+  gibbs.chain = chainGibbsUserStart(1000,1,1,sample(0:275,size=1))
   coda.gibbs.chains[[i]] = mcmc(cbind(gibbs.chain$q,gibbs.chain$n111))
 }
 
