@@ -51,7 +51,7 @@ hist(mcmc_out_small_jumps[,"state"], xlab="MCMC State", main="Target Distributio
 mcmc_out_large_jumps = matrix(0, nrow=(mcmc_size), ncol=2)
 colnames(mcmc_out_large_jumps) = c("state", "acc.status")
 
-cur_state = c(100,1)
+cur_state = c(start_value,1)
 mcmc_out_large_jumps[1,] = cur_state
 
 for (i in 2:mcmc_size){
