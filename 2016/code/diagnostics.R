@@ -11,10 +11,10 @@ source("https://raw.githubusercontent.com/vnminin/SISMID_MCMC_I/master/2016/code
 dev.off()
 
 ## run one M-H example chain
-gibbs.chain1 = chainGibbs(1000, 1,1)
+gibbs.chain1 = chainGibbs(5000, 1,1)
 
 ## convert the output into coda format
-coda.gibbs.chain = mcmc(cbind(gibbs.chain1$q[101:1000],gibbs.chain1$n111[101:1000]))
+coda.gibbs.chain = mcmc(cbind(gibbs.chain1$q[101:5000],gibbs.chain1$n111[101:5000]))
 
 summary(coda.gibbs.chain)
 
