@@ -581,57 +581,14 @@ converges to $\int \frac{f(x)}{g(x)}g(x) \text{d}x = \int f(x)\text{d}x = 1$ by 
 As illustrated by the next example, the importance sampling can be useful even if we can easily 
 simulate from $f(x)$, because importance sampling can be used to reduce the Monte Carlo variance.
 
-\begin{example}{Estimating the tail of the standard normal distribution}
-  Let $Z \sim \mathcal{N}(0,1)$. We would like to estimate the tail probability 
-  $\text{Pr}(Z > c)$, where $c$ is large (e.g., $c = 4.5$).  
-  \par
-  \textit{Naive Monte Carlo}: simulate $Z_1,\dots,Z_n {\buildrel \text{iid} \over \sim} \mathcal{N}(0,1)$.
-  Then 
-  \begin{equation*}
-    \hat{\mu} = \frac{1}{n} \sum_{i=1}^n 1_{\{Z_i>c\}} \approx 
-   \text{E}\left(1_{\{Z>c\}}\right) = \text{Pr}(Z>c). 
-  \end{equation*}
-  This estimator will most likely give you 0 even for $n = 10,000$.  
-  The problem is the large variance of the integrand:
-  \begin{equation*}
-    \text{Var}(\hat{\mu}) = \frac{1}{n}\text{Var}(\indfun{Z_1 > c}) 
-    = \frac{1}{n}\text{Pr}(Z_1 > c)[1 - \text{Pr}(Z_1 > c)] = \mathbf{3.4\times10^{-10}} \text{ for } n=10,000 
-    \text{ and } c=4.5. 
-  \end{equation*}
-  This variance is huge, because the quantity of interest is $\text{Pr}(Z_1 > c) = 3.39\times 10^{-6}$ and the standard
-  deviation of our estimator is $1.84\times10^{-5}$.
-  \par
-  \textit{Importance sampling}: Simulate $Y_1,...,Y_n {\buildrel \text{iid} \over \sim} \text{Exp}(c, 1)$ 
-  from a shifted exponential with density
-  \begin{equation*}
-    g(y) = e^{-(y-c)}1_{\{y > c\}}.
-  \end{equation*}
-  Generating such random variables is very easy: just simulate a regular exponential $\text{Exp}(1)$ and
-  add $c$ to the simulated value. Then the importance sampling estimator becomes
-  \begin{equation*}
-    \tilde{\mu} = \frac{1}{n} \sum_{i=1}^n \frac{\phi(Y_i)}{g(Y_i)} \indfun{Y_i > c},
-  \end{equation*}
-  where $\phi(x)$ is the standard normal density. The variance of this estimator amounts to 
-  \begin{equation*}
-    \begin{split}
-      \text{Var}(\tilde{\mu}) &= \frac{1}{n} \text{Var}\left[ 
-        \frac{\phi(Y)}{g(Y)}1_{\{Y > c\}}\right] = 
-      \frac{1}{n}\left\{\text{E}_g\left[\frac{\phi^2(Y)}{g^2(Y)}1_{\{Y > c\}}\right] 
-        - \left[\text{E}_g\left(\frac{\phi(Y)}{g(Y)}1_{\{Y > c\}}\right)\right]^2\right\} \\ 
-      &=\frac{1}{n}\left[\int_c^\infty \frac{\phi^2(y)}{g(y)}dy - \text{Pr}(Z > c)^2\right] 
-      = \mathbf{1.9474\times 10^{-15}} \text{ for } n=10,000 \text{ and } c=4.5.
-    \end{split}
-  \end{equation*}
-  This means that we reduced Monte Carlo variance roughly by a factor of $10^5$ using importance 
-  sampling.\\
-  \textit{Now let's code this example up during the practical/lab session.}
-\end{example}
-
 In conclusion, we point out that the most difficult aspect of classical Monte Carlo is generating
 iid samples. Even importance sampling has severe limitations in high dimensions. In such difficult 
 cases, Markov chain Monte Carlo (MCMC) can come to rescue. Before we master this numerical integration
 technique we need to refresh our knowledge of Markov chains.
 
+\begin{example}{Estimating the tail of the standard normal distribution}
+See practical in `dtmc-lab.pdf'.
+\end{example}
 
 \subsection{Elementary Markov chain theory}
 In this section we will cover some basic results for Markov chains. For a more detailed treatment, see for example
