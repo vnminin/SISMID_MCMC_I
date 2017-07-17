@@ -38,7 +38,7 @@ for (i in 2:mcmc.size){
    # q[i] = 
   
    # Draw an iterate of n111 from its full conditional distribution
-   # n111[i] = rbinom(1,N3,2*q[i]/(2*q[i]+1))
+   # n111[i] =
    
    }
 
