@@ -1,4 +1,54 @@
-\documentclass[11pt]{article}
+\documentclass[11pt]{article}\usepackage[]{graphicx}\usepackage[]{color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
 
 \setlength{\oddsidemargin}{0.1in}
 \setlength{\textwidth}{6.5in}
@@ -102,15 +152,11 @@
 \cfoot{\thepage}
 %\cfoot{}
 
-<<setup, include=FALSE, cache=FALSE>>=
-library(knitr)
-# set global chunk options
-opts_chunk$set(fig.path='figures/', fig.align='center', dev=c('pdf', 'postscript'))
-options(replace.assign=TRUE,width=90)
-@
+
 
 
 %%\usepackage{/Library/Frameworks/R.framework/Resources/share/texmf/Sweave}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \begin{document}
 
 \setkeys{Gin}{width=1.0\textwidth}
@@ -205,44 +251,18 @@ general way to define random variables is by specifying a \underline{cumulative 
 
 \begin{figure}
 \centering
-<<r discr-pmf-cdf, fig.width=10, fig.height=10, echo=FALSE>>=
-par(mfrow=c(2,2), cex.lab=1.4, cex.axis=1.4, cex.main=1.4)
-plot(c(1:10), rep(1/10,10), type="h", xlab="U", ylab="Probability", main="Uniform Probability Mass Function", axes=FALSE, ylim=c(0,1), lwd=2)
-axis(1, at=c(1:10))
-axis(2)
-box()
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
 
-leftPointX = c(-0.5, 1:10)
-leftPointY = c(0, c(1:10)/10)
+{\centering \includegraphics[width=\maxwidth]{figures/r_discr-pmf-cdf-1} 
 
-rightPointX = c(1:10, 11.5)
-rightPointY = c(0, c(1:10)/10)
+}
 
-plot(1,1, type="n", xlim=c(-0.5,11.5), ylim=c(0,1),
-     xlab="U", ylab="CDF", main="Uniform Cumulative Distribution Function")
-segments(leftPointX, leftPointY, rightPointX, rightPointY, lwd=2)
-points(c(1:10), c(0:9)/10)
 
-my.s.prob=0.2
 
-plot(c(0:14), dgeom(c(0:14),prob=my.s.prob), type="h", xlab="X", ylab="Probability", main="Geometric Probability Mass Function", axes=FALSE, ylim=c(0,1), lwd=2)
-axis(1, at=c(0:14))
-axis(2)
-box()
-
-x<-0:14
-cdf<-pgeom(x,prob=my.s.prob)
-
-leftPointX = c(-0.5,x) 
-leftPointY = c(0,cdf)
-rightPointX = c(x,14.5)
-rightPointY = c(0, cdf)
-plot(1,1,type="n", xlim=c(-0.5,14.5), ylim = c(0,1),xlab="X", ylab="CDF", main="Cumulative Distribution Function For \n X~Geometric(0.2)")
-segments(leftPointX, leftPointY, rightPointX, rightPointY,lwd=2)
-points(x,c(0,cdf[-15]))
-@
+\end{knitrout}
 \caption{Probability mass functions (left column) and cumulative distribution functions (right column) of the discrete uniform 
-random variable over $\{1,2,\dots,10\}$ (top row) and geometric random variable with success probability $p = \Sexpr{my.s.prob}$ (bottom row).}
+random variable over $\{1,2,\dots,10\}$ (top row) and geometric random variable with success probability $p = 0.2$ (bottom row).}
 \label{discr-unif-geometric}
 \end{figure}
 
@@ -325,45 +345,18 @@ then
 
 \begin{figure}
 \centering
-<<r cont-unif-pmf-cdf, fig.width=10, fig.height=10, echo=FALSE>>=
-par(mfrow=c(2,2), cex.lab=1.4, cex.axis=1.4, cex.main=1.4)
-plot(1, 1, type="n", main="Uniform Probability Density Function",
-     axes=FALSE, xlab="U", ylab="Density", ylim=c(0,1.2), xlim=c(-0.5,1.5), lwd=2)
-segments(0,1,1,1, lwd=2)
-segments(-0.5,0,0,0, lwd=2)
-segments(1,0,1.5,0, lwd=2)
-points(c(0,1), c(0,0))
-axis(1)
-axis(2)
-box()
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+
+{\centering \includegraphics[width=\maxwidth]{figures/r_cont-unif-pmf-cdf-1} 
+
+}
 
 
-plot(1, 1, type="n", main="Uniform Cumulative Distribution Function",
-     axes=FALSE, xlab="U", ylab="Probability", ylim=c(0,1.2), xlim=c(-0.5,1.5), lwd=2)
-segments(0,0,1,1, lwd=2)
-segments(-0.5,0,0,0, lwd=2)
-segments(1,1,1.5,1, lwd=2)
-axis(1)
-axis(2)
-box()
 
-x.grid = c(0,1:1000)/100
-my.lambda = 2.4
-
-plot(x.grid, dexp(x.grid, rate=my.lambda), type="l", main="Exponential Probability Density Function",
-     axes=FALSE, xlab="X", ylab="Density", xlim=c(0,3), lwd=2)
-axis(1)
-axis(2)
-box()
-
-plot(x.grid, pexp(x.grid, rate=my.lambda), type="l", main="Exponential Cumulative Distribution Function",
-     axes=FALSE, xlab="X", ylab="Probability", ylim=c(0,1.0), xlim=c(0,3), lwd=2)
-axis(1)
-axis(2)
-box()
-@
+\end{knitrout}
 \caption{Probability density functions (left column) and cumulative distribution functions (right column) of the continuous uniform 
-random variable on $[0,1]$ (top row) and exponential random variable with rate parameter $\lambda = \Sexpr{my.lambda}$ (bottom row).}
+random variable on $[0,1]$ (top row) and exponential random variable with rate parameter $\lambda = 2.4$ (bottom row).}
 \label{cont-unif-exponential}
 \end{figure}
 
