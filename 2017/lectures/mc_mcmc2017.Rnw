@@ -828,49 +828,7 @@ $\boldsymbol{\pi}$ also satisfies global balance equations.
 \end{mynote}
 
 \begin{example}{Ehrenfest model of diffusion}
-Imagine a two dimensional rectangular box with a divider in the middle. The box contains $N$ balls
-(gas molecules)  distributed somehow between the two halves. The divider has a small gap, through which 
-balls can go through one at a time. We assume that at each time step we select a ball uniformly at 
-random and force it go through the gap to the opposite side of the divider. Letting $X_n$ denote
-the total number of balls in the left half of the box, our Markov process is described by the 
-following transition probabilities.
-
-\begin{minipage}[c]{0.5\textwidth}
-  \[
-  p_{ij} =
-  \begin{cases}
-    \frac{i}{N}. &\text{ for } j=i-1,\\\
-    1-\frac{i}{N}, &\text{ for } j=i+1,\\
-    0, \text{ otherwise}.
-  \end{cases}
-  \]
-\end{minipage}
-\begin{minipage}[r]{0.45\textwidth}
-  \vspace{0.2cm}
-  \includegraphics[width=0.9\textwidth]{ehrenfest}
-  \vspace{0.3cm}
-\end{minipage}
-
-If we want to derive a stationary distribution of the system, we can solve the global balance equations
-$\boldsymbol{\pi}^T \mathbf{P} = \boldsymbol{\pi}^{T}$. Alternatively, we may ``guess'' that at
-equilibrium $X_n \sim \text{bin}(\frac{1}{2}, N)$ and verify this candidate stationary distribution
-via detailed balance. Notice we do not know whether the Ehrenfest chain is reversible, but we'll go
-ahead with the detailed balance check anyway. First, notice that entries of our candidate vector are
-\begin{equation*}
-  \pi_i = {N \choose i} \left(\frac{1}{2}\right)^i\left(1-\frac{1}{2}\right)^{N-i} = 
-  {N \choose i} \frac{1}{2^N}
-\end{equation*}
-Since $X_n$ can only increase or decrease by one at each time step, we need to check detailed balance 
-only for $i$ and $j = i + 1$.  
-\[
-\begin{split}
-  &\pi_i p_{i,i+1} = \frac{1}{2^N}{N \choose i} \frac{N - i}{N} =
-  \frac{1}{2^N} \frac{N!}{i!(N-i)!} \frac{N - i}{N} =
-  \frac{1}{2^N} \frac{N!}{(i+1)!(N-i-1)!} \frac{i+1}{N}\\
-  &= {N \choose i+1} \frac{1}{2^N} \frac{i+1}{N} = \pi_{i+1} p_{i+1,i},
-\end{split}
-\]
-confirming our guess.
+See practical in `dtmc-lab.pdf'.
 \end{example}
 
 \begin{define}
