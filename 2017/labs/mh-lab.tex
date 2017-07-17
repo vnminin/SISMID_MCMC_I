@@ -1,0 +1,171 @@
+\documentclass[11pt]{article}
+
+\setlength{\oddsidemargin}{0.1in}
+\setlength{\textwidth}{6.5in}
+\setlength{\topmargin}{-0.5in}
+\setlength{\textheight}{9in}
+\renewcommand{\baselinestretch}{1.3} 
+
+\usepackage{fancyhdr}
+%%\usepackage{fullpage}
+%%\usepackage{subfigure}
+\usepackage{latexsym}
+\usepackage{wrapfig}
+\usepackage{graphicx}
+\usepackage{amsmath, amsthm, amssymb}
+\usepackage{natbib}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\numberwithin{algorithm}{section}
+%%\usepackage{amsfonts}
+%\usepackage{nopageno}
+
+%%\usepackage{graphicx}        % standard LaTeX graphics tool
+                             % when including figure files
+%%\usepackage{multicol}        % used for the two-column index
+%%\usepackage[bottom]{footmisc}% places footnotes at page bottom
+
+
+%% my additional packages 
+%%\usepackage{lscape}
+%%\usepackage{fancybox}
+%%\usepackage{amsfonts,amssymb,amsfonts,amsmath}
+%%\usepackage{threeparttable}
+
+
+
+
+%\newcommand{\draftnote}[1]{\marginpar{\tiny\raggedright\textsf{\hspace{0pt}{\bf Comments}:#1}}}
+%\newcommand{\draftnote}[1]{}
+
+%%\DeclareMathOperator*{\argmax}{arg\,max}
+
+\newcommand{\cprob}[2]{\ensuremath{\text{Pr}\left(#1 \,|\,#2\right)}}  
+\newcommand{\prob}[1]{\ensuremath{\text{Pr}\left(#1 \right)}}
+\newcommand{\cexpect}[4]{\ensuremath{\text{E}\left#3 #1 \,|\,#2\right#4}}  
+\newcommand{\expect}[3]{\ensuremath{\text{E}\left#2 #1 \right#3}}
+
+\newcommand{\fder}[1]{\frac{d}{d #1}}
+\newcommand{\hder}[2]{\frac{d^{#2}}{d {#1}^{#2}}}
+\newcommand{\fpart}[1]{\frac{\partial}{\partial #1}}
+\newcommand{\hpart}[2]{\frac{\partial^{#2}}{\partial {#1}^{#2}}}
+\newcommand{\iid}{\ensuremath{\overset{\text{iid}}{\sim}}}
+\newcommand{\indfun}[1]{\ensuremath{1_{\{#1\}}}}
+\newcommand{\asarrow}{\ensuremath{\overset{\text{a.s.}}{\rightarrow}}}
+\newcommand{\parrow}{\ensuremath{\overset{\text{P}}{\rightarrow}}}
+\newcommand{\darrow}{\ensuremath{\overset{\text{D}}{\rightarrow}}}
+\newcommand{\mydef}{\ensuremath{\overset{\text{def}}{=}}}
+
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+
+\newtheorem*{theorem}{Theorem}
+\newtheorem*{prop}{Proposition}
+\newtheorem*{corollary}{Corollary}
+\newtheorem*{lemma}{Lemma}
+
+\theoremstyle{remark}
+\newtheorem*{mynote}{Note}
+
+\theoremstyle{definition}
+\newtheorem*{define}{Definition}
+
+\newenvironment{example}[1]{\begin{trivlist}
+\item[\hskip \labelsep {\bfseries Example}: \underline{#1}]\ \\}{\end{trivlist}}
+
+\newenvironment{Proof}{\begin{trivlist}
+\item[\hskip \labelsep \textit{Proof}:]}{\end{trivlist}}
+
+\newenvironment{exercise}{\begin{trivlist}
+\item[\hskip \labelsep \textit{Exercise}:]}{\end{trivlist}}
+
+\newcommand{\todo}[1]{\begin{center}To do: {\bf #1}\end{center}}
+
+%% group numberging of equations and figures by section
+
+\numberwithin{equation}{section}
+\numberwithin{figure}{section}
+
+\bibliographystyle{plainnat}
+
+
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0.8pt}
+\lhead{\bf \large SISMID, Module 8 Practicals}
+\rhead{\bf Summer 2017}
+\chead{} 
+\lfoot{} 
+\rfoot{} 
+\cfoot{}
+
+\begin{document}
+
+\setkeys{Gin}{width=1.0\textwidth}
+
+
+\begin{center}
+  \textbf{\Large Practical: Metropolis-Hastings Algorithm}\\
+  {\large Instructors: Kari Auranen, Elizabeth Halloran and Vladimir Minin}\\
+  {\large July 17 -- July 19, 2017}
+\end{center}
+
+\section*{Sampling from the standard normal distribution}
+Suppose our target is a univariate standard normal distribution with density $f(x) = 1/(\sqrt{2\pi})e^{-x^2/2}$.
+Given current state $x^{(t)}$, we generate two uniform r.v.s $U_1 \sim U[-\delta,\delta]$ and 
+$U_2 \sim U[0,1]$. Then set
+\[
+x^{(t+1)} = 
+\begin{cases}
+  x^{(t)} + U_1 &\text{ if } U_2 \le \min\left\{e^{\left[\left(x^{(t)}\right)^2 - (x^{(t)}+U_1)^2\right]/2},1\right\} \\
+  x^{(t)} & \text{ otherwise}.
+\end{cases}
+\]
+$\delta$ is a tuning parameter. Large $\delta$ leads to small acceptance rate, small $\delta$ leads to slow
+exploration of the state space. The rule of thumb for random walk proposals is to keep acceptance probabilities
+around 30-40\%. If your proposal is close to the target, then higher acceptance rates are favorable.
+
+
+\subsection*{Your task}
+Implement the above algorithm. Experiment with the tuning parameter $\delta$ and report empirically estimate
+acceptance probabilities for different values of this parameter.
+
+\section*{Distribution of the time of infection}
+Consider a two state continuous-time Markov SIS model, where the disease status $X_t$ cycles between the two states: 
+$1$=susceptible, $2$=infected. Let the infection rate be $\lambda_1$ and clearance rate be $\lambda_2$.
+Suppose that an individual is susceptible at time $0$ ($X_0 = 1$) and infected at time $T$ ($X_T=2$). We don't know
+anything else about the disease status of this individual during the interval $[0,T]$. If $T$ is small enough, 
+it is reasonable to assume that the individual was infected only once during this time interval. We would like 
+to obtain the distribution of the time of infection $I$, conditional on the information we have.
+
+\subsection*{Your task}
+Implement a Metropolis-Hastings sampler to draw realizations from the distribution 
+\[
+\text{Pr}(I \mid X_0=1, X_t=2, N_t=1) \propto \text{Pr}(0<t<I: X_t=1, I<t<T: X_t=2),
+\] 
+where $N_t$ is the number of infections. Since $X_t$ is a continuous-time Markov chain, the last 
+probability (it is actually a density) can be written as
+\[
+\text{Pr}(0<t<I: X_t=1, I<t<T: X_t=2) = \underbrace{\lambda_1 e^{-\lambda_1 I}}_{\text{density of waiting time until infection}} 
+\times \overbrace{e^{-\lambda_2 (T-I)}}^{\text{prob of staying infected}}.
+\]
+To make things concrete, set $\lambda_1 = 0.1$, $\lambda_2=0.2$ and $T=1.0$. For your proposal distribution, use 
+a uniform random walk with reflective boundaries $0$ and $T$. In other words, given a current value of the infection
+time $t_c$, generate $u = \text{Unif}_{[t_c-\delta,t_c+\delta]}$ ($2\delta < T$) and then make a proposal value
+\[
+t_p = 
+\begin{cases}
+  u &\text{ if } 0 < u < T,\\
+  2T - u &\text{ if } u > T,\\
+  -u &\text{ if } u < 0.
+\end{cases}
+\]
+This is a symmetric proposal, so your M-H ratio will contain only the ratio of target densities:
+\[
+\frac{\lambda_1 e^{-\lambda_1 t_p}e^{-\lambda_2 (T-t_p)}}{\lambda_1 e^{-\lambda_1 t_c}e^{-\lambda_2 (T-t_c)}} = 
+e^{-\lambda_1(t_p - t_c) -\lambda_2(t_c-t_p)} = e^{(t_p-t_c)(\lambda_2-\lambda_1)}.
+\]
+Plot the histogram of the posterior distribution of the infection time. Try a couple of sets of values for $\lambda_1$ and $\lambda_2$ and examine
+the effect of these changes on the posterior distribution of the infection time.
+
+\end{document}
+
