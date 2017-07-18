@@ -125,10 +125,12 @@ par(mar=c(5,5,4,1),cex.lab=2,cex.axis=1.5)
 boxplot(as.data.frame(rat_results[,-c(1:6)]),
         ylab="Bin Success Prob",las=2,cex.axis=1.3)
 
-hist(rat_results[,"alpha"],xlab=expression(alpha),main="")
+hist(rat_results[,"alpha"],xlab=expression(alpha),main="", freq=FALSE)
 box()
-hist(rat_results[,"beta"],xlab=expression(beta), main="")
+lines(seq(from=0,to=8, by=0.01), dexp(seq(from=0,to=8, by=0.01), rate=0.1), lwd=2, lty=2)
+hist(rat_results[,"beta"],xlab=expression(beta), main="", freq=FALSE)
 box()
+lines(seq(from=0,to=40, by=0.01), dexp(seq(from=0,to=40, by=0.01), rate=0.1), lwd=2, lty=2)
 
 par(mar=c(7,5,2,2))
 plot(rat_results[,"posterior"],type="l",ylab="Log-Posterior",xlab="Iteration")
