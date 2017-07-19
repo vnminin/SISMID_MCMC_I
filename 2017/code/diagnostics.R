@@ -8,7 +8,7 @@ library(mcmcse)
 
 ## now let's load our M-H and Gibbs sampler examples
 source("https://raw.githubusercontent.com/vnminin/SISMID_MCMC_I/master/2017/code/chainGibbs.R")
-source("https://raw.githubusercontent.com/vnminin/SISMID_MCMC_I/master/2017/code/mychainGibbs.R")
+
 dev.off()
 
 ## run one M-H example chain
