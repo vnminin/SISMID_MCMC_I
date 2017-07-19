@@ -51,6 +51,7 @@ for (i in 1:50){
 
 coda.gibbs.list = mcmc.list(coda.gibbs.chains)
 
+
 plot(coda.gibbs.list)
 
 ## compute and plot Gelman-Rubin potential reduction factor

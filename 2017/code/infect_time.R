@@ -57,7 +57,7 @@ inf_time_mcmc = function(start_inf_time, inf_rate, clear_rate, total_time, win_h
 
 ## run the above functions
 
-test_sample = inf_time_mcmc(start_inf_time=0.1, inf_rate=0.1, clear_rate=0.2, total_time=1.0, win_half_len=0.2, chain_len=10000)
+test_sample = inf_time_mcmc(start_inf_time=0.1, inf_rate=10, clear_rate=.2, total_time=1.0, win_half_len=0.2, chain_len=10000)
 
 summary(test_sample[1000:10000,])
 

@@ -62,7 +62,7 @@ cur.beta  = 1
 al[1]    = cur.alpha
 be[1]    = cur.beta
 q[1,]    = rep(0.5,334)
-n111[1,] = rbinom(1,275,2*0.5/(2*0.5+1))
+n111[1,] = rbinom(275,1,2*0.5/(2*0.5+1))
 
 # The observations
 n1  = 34   # frequency of chain 1
