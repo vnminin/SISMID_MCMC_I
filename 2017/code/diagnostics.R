@@ -4,10 +4,11 @@
 
 ## first we need to load coda and mcmcse packages (you need to install them first)
 library(coda)
-library(mcmcse)
+#library(mcmcse)
 
 ## now let's load our M-H and Gibbs sampler examples
-source("https://raw.githubusercontent.com/vnminin/SISMID_MCMC_I/master/2017/code/chainGibbs.R")
+source("chainGibbs.R")
+#source("https://raw.githubusercontent.com/vnminin/SISMID_MCMC_I/master/2017/code/chainGibbs.R")
 
 dev.off()
 

@@ -1,5 +1,4 @@
   checkmodel = function(mcmc.sample,mcmc.burnin){
-# Last updated July 12, 2016/KA
 #
 # This function draws numerical samples from the joint posterior 
 # predictive distribution of frequencies n1, n11, n111 and n12.
@@ -11,7 +10,6 @@
 # sample. It also plots the samples from the predictive distribution of 
 # frequencies n1 and n11. 
 #
-# Ref: the lecture notes.
 #
 # INPUT mcmc.sample = the output (= MCMC samples) from program mychainGibbs.R 
 #                     (or chainGibbs.R)
@@ -49,13 +47,13 @@ for (k in 1:mcmc.subsamplesize){
 
 # Plot the posterior predictive distribution for frequencies n1 and n11
 par(mfrow=c(1,1))
-plot(0:60,0:60,type="n",xlab='n1',ylab='n11',cex.lab=2)           
+plot(0:60,0:60,type="n",xlab=expression(n[1]),ylab=expression(n[11]),cex.lab=1.5)           
 points(jitter(Npred[,1],2.5),jitter(Npred[,2],2.5),pch='.',cex=3) 
  
 # The actually observed value
 points(34,25,col='red')
-abline(v=34,col='red',lwd=0.25)
-abline(h=25,col='red',lwd=0.25)
+abline(v=34,col='red',lwd=0.75)
+abline(h=25,col='red',lwd=0.75)
 
 # The posterior predictive expected frequnecies of the four chain types
 expfreq = round(334*c(mean(P1),mean(P11),mean(P111),mean(P12)))
