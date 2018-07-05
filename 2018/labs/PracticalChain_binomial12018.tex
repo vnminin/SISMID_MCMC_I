@@ -1,0 +1,255 @@
+\documentclass[11pt]{article}
+\setlength{\oddsidemargin}{0cm}
+\setlength{\textwidth}{16.4cm}
+\setlength{\parskip}{0.25cm}
+\setlength{\topmargin}{-.5cm}
+\addtolength{\jot}{.25cm}
+\setlength{\textheight}{22.2cm}
+
+
+\def\bldcalO{\mbox{\boldmath  ${\cal O}$}}
+\def\boldeta{\mbox{\boldmath $\eta$}}
+\def\btheta{\mbox{\boldmath $\theta$}}
+\def\bgamma{\mbox{\boldmath $\gamma$}}
+\def\blambda{\mbox{\boldmath $\lambda$}}
+\def\bomega{\mbox{\boldmath $\omega$}}
+\def\bvarphi{\mbox{\boldmath $\varphi$}}
+\def\boldd{\mbox{\boldmath $d$}}
+\def\boldj{\mbox{\boldmath $j$}}
+\def\boldx{\mbox{\boldmath $x$}}
+\def\bbeta{\mbox{\boldmath $\beta$}}
+\def\bpi{\mbox{\boldmath $pi$}}
+\def\boldzero{\mbox{\boldmath $0$}}
+\def\boldX{\mbox{\boldmath $X$}}
+\def\boldY{\mbox{\boldmath $Y$}}
+\def\bolda{\mbox{\boldmath $a$}}
+\def\boldb{\mbox{\boldmath $b$}}
+\def\boldp{\mbox{\boldmath $p$}}
+\def\boldz{\mbox{\boldmath $z$}}
+\def\bphi{\mbox{\boldmath $\phi$}}
+\def\bpsi{\mbox{\boldmath $\psi$}}
+\def\boldr{\mbox{\boldmath $r$}}
+\def\boldR{\mbox{\boldmath $R$}}
+\def\balpha{\mbox{\boldmath $\alpha$}}
+\def\bigPi{ \mbox{\Huge \boldmath $\Pi$}}
+\def\boldy{\mbox{\boldmath $y$}}
+\def\bnu{\mbox{\boldmath $\nu$}}
+\def\boldw{\mbox{\boldmath $w$}}
+\def\boldW{\mbox{\boldmath $W$}}
+\def\boldV{\mbox{\boldmath $V$}}
+\def\boldZ{\mbox{\boldmath $Z$}}
+\def\boldS{\mbox{\boldmath $S$}}
+\def\bold1{\mbox{\boldmath $1$}}
+\def\bzero{\mbox{\boldmath $0$}}
+
+
+
+\usepackage{makeidx}         % allows index generation
+\usepackage{graphicx}        % standard LaTeX graphics tool
+                             % when including figure files
+\usepackage{multicol}        % used for the two-column index
+\usepackage[bottom]{footmisc}% places footnotes at page bottom
+
+
+%% my additional packages 
+\usepackage{lscape}
+\usepackage{fancybox}
+\usepackage{amsfonts,amssymb,amsfonts,amsmath}
+\usepackage{threeparttable}
+
+
+\begin{document}
+\setlength{\parskip}{0.25cm}
+\bibliographystyle{unsrt}
+\addtolength{\baselineskip}{0.2\baselineskip}  
+\pagestyle{myheadings}   
+
+\markright{Chain binomial Gibbs sampler \today}
+\section*{Practical session:\hfill\break 
+Chain binomial model I: Gibbs sampler}
+
+\bigskip
+
+\subsection*{Background}
+
+In this computer lab, we apply Gibbs sampling to incompletely 
+observed data in a chain binomial model.  The observations are based 
+on outbreaks of measles in Rhode Island 
+during the years 1929--1934 [1]. We restrict the analysis to 
+families with 3 susceptible individuals at the onset of the outbreak. 
+This example is based on references [1]-[4].
+
+We assume that there is a single index case that introduces infection
+to the family. Thus, possible epidemic chains are $1$, $1\to 1$, $1\to 1\to 1$ 
+and $1\to 2$. Denote the probability for a susceptible to escape infection
+when exposed to one infective in the family by $q$ (and $p=1-q$). The 
+following table lists chain probabilities, with the 
+actually observed frequencies of the size of epidemic:
+
+$$\vbox{
+  {\offinterlineskip
+   \halign{ \strut  #\hfill  &\vrule width0pt 
+# 
+&\ # 
+& #
+& #
+& # \cr
+\multispan{4}\hrulefill\cr
+ \omit & height5pt & &\cr
+chain  &prob. &frequency &observed frequency \cr
+\multispan{4}\hrulefill\cr
+            \omit & height5pt &\cr
+1 &$q^2$ &$n_1$ &34\cr
+1$\to$1 &$2q^2p$ &$n_{11}$ &25\cr
+1$\to$1$\to$1 &$2qp^2$  &$n_{111}$ &not observed\hfill\cr
+1$\to$ 2 &$p^2$ &$n_{12}$ &not observed\hfill \cr
+\multispan{4}\hrulefill\cr
+}}}$$
+
+In this exercise, we assume that frequencies $n_{111}$ and $n_{12}$ 
+have not been observed. Only their sum $N_3 = n_{111} + n_{12} = 275$ 
+is known.
+
+The estimation problem concerns the escape probability $q$, so that
+there is basically only one unknown parameter in the model. 
+However, the fact that not all frequencies have been observed 
+creates a computational problem that can be solved by Bayesian
+data augmentation and Gibbs sampling [2].
+
+
+{\bf Marginal likelihood.} The joint probability of the {\sl complete data}
+$(n_1,n_{11},N_3,n_{111})$ is proportional to a multinomial probability:
+\begin{eqnarray}
+\null\hskip 11pt
+f(n_1,n_{11},N_3,n_{111}\vert q) &= {(q^2)}^{n_1}{(2q^2p)}^{n_{11}}
+{(2qp^2)}^{n_{111}}{(p^2)}^{N_3-n_{111}}~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\nonumber \\
+&= \hbox{constant}\times q^{2n_1 + 2n_{11} + n_{111}}p^{n_{11} + 2N_3}.~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\label{eqn:1}
+\end{eqnarray}
+The marginal likelihood $f(n_1,n_{11},N_3\vert q)$ would be 
+obtained by summing up expressions (1) with $n_{111}$ running from 0 to $N_3$.
+
+
+%\vskip 11pt
+{\bf The Bayesian approach.} Instead of using the marginal likelihood, we will
+treat frequency $n_{111}$ as a model unknown in addition to parameter $q$.
+The joint distribution of the observations $(n_1,n_{11},N_3)$
+and the model unknowns $(n_{111},q)$ is
+\begin{eqnarray}
+\null\hskip 11pt
+f(n_{1},n_{11},N_3,n_{111},q) = f(n_{1},n_{11},N_3,n_{111}\vert q) f(q)
+.~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\label{eqn:2}
+\end{eqnarray}
+The first term in is the complete data likelihood (see (1)), based on 
+the augmented data (i.e. the data are augmented with the unknown frequency
+$n_{111}$). 
+
+The second term is the prior density of probability 
+$q$. We choose a Beta prior for  parameter $q$: 
+$q \sim \hbox{Beta}(\alpha,\beta)$ so 
+that $f(q) \propto q^{\alpha-1}{(1-q)}^{\beta -1}$. With the choice
+$\alpha=\beta=1$, this is uniform prior on [0,1].
+
+The joint posterior distribution of the model unknowns is 
+$f(q,n_{111}\vert n_1,n_{11},N_3)$.
+
+%\vskip 11pt
+{\bf Gibbs sampling.} In the lecture we demonstrated that
+the joint posterior distribution of the model unknowns
+$n_{111}$ and $q$ can be investigated by Gibbs sampling. This means making
+a numerical sample from the posterior distribution by drawing samples of
+$n_{111}$ and $q$ in turn from their full conditional posterior distributions:
+\begin{eqnarray}
+\null\hskip 11pt
+f(q\vert n_1, n_{11}, N_3,n_{111})~~\hbox{ and }~~ 
+f(n_{111}\vert n_1,n_{11}, N_{3},q). \nonumber
+\end{eqnarray}
+These were found to be 
+
+\begin{array}{ll}
+\null\hskip 11pt
+q\vert n_1, n_{11}, N_3, n_{111}  \sim \hbox{Beta}(2n_1 + 2n_{11} + n_{111}+\alpha, n_{11} + 2N_3+\beta)~~~~~~~~~~~~~~~~~~~\eqno(3)\\
+\end{array}
+
+and 
+
+\begin{array}{ll}
+\null\hskip 11pt
+n_{111}\vert n_1, n_{11}, N_3, q = n_{111}\vert N_3, q
+\sim \hbox{Binomial}(N_3, 2q/(2q+1)).~~~~~~~~~~~~~~~~~~~~~~~~~\eqno(4)\\
+\end{array}
+
+\subsection*{Exercises}
+
+\begin{enumerate}
+\item {\bf Gibbs sampling.} The R program ({\bf chainGibbs.R}) contains a function 
+{\tt chainGibbs(mcmc.size,$\alpha,\beta$)} that
+draws samples from the joint posterior distribution of $q$ and $n_{111}$. The function has this
+particular data set ``hardwired'' within the program. 
+Using Gibbs sampling, the program draws samples 
+in turn from distributions (3) and (4). Starting with 
+the initial values ${(q^{(1)},n_{111}^{(1)})} = (0.5,275*(2*0.5)/(2*0.5+1))$,
+it iterates between sampling
+
+\begin{array}{ll}
+\null\hskip 20pt
+q^{(i)}\vert n_{1},n_{11},N_3,n_{111}^{(i-1)}~~~~~\hbox{and}\\[3mm]
+\null\hskip 20pt
+n_{111}^{(i)}\vert n_1,n_{11},N_3,q^{(i)},~i=2,\ldots,mcmc.size$.\\
+\end{array}
+
+This creates a sample $(q^{(i)},n_{111}^{(i)}),~i=1,\ldots,mcmc.size$. 
+
+\item {\bf Write your own Gibbs sampler} Before running chainGibbs.R, you might like to try writing your own Gibbs sampler for the chain binomial
+problem. Assume you will run $mcmc.size$ iterations.
+\begin{enumerate}
+\item Reserve space for the $mcmc.size$-vector of  $q$ and $n_{111}$ values.
+\item Initialize the model unknowns q[1] and n111[1]  (round the n111[1])
+\item Enter the data n1, n11, N3
+\item Draw the MCMC samples 2:$mcmc.size$ using the rbeta() and rbinom() functions 
+\end{enumerate}
+
+\item{\bf Posterior inferences.} By discarding a number of "burn-in" samples, you can 
+use the rest of the numerical sample to explore the posterior of escape probability $q$. 
+It is enough to discard a few hundred first samples, say 500, in this simple model.
+\begin{enumerate}
+\item Make a histogram of the samples 501:$mcmc.size$  of q and n111.
+\item Use the {\tt summary()} function to get summaries the samples 501:$mcmc.size$ of q and n111. 
+\end{enumerate}
+
+%It is also possible to characterize the posterior distribution of the 
+%unobserved frequency $n_{111}$. 
+
+\item {\bf Writing a  Gibbs sampler function} You can now convert your R program to a function 
+that can be called.  It could be similar to the function in the file  {\bf chainGibbs.R} 
+{\tt chainGibbs(mcmc.size,$\alpha,\beta$)}. 
+
+\begin{enumerate}
+\item However, you might prefer to write a function 
+{\tt mychainGibbs(n1,n11,N3,mcmc.size,$\alpha,\beta$)} that allows you to do inference on other data 
+sets with observed $(n_{1},n_{11},N_{3})$. 
+\item If you write such a function, try altering the value of $N_{3}$. How do larger and smaller values alter the posterior distribution of 
+$q$?
+\end{enumerate}
+\item {\bf Sensitivity to the choice of prior.} 
+Assess how the choice of the prior distribution affects estimation
+of the escape probability. Use the Beta($\alpha,\beta$) prior with 
+different values of $\alpha$ and $\beta$. Note that both parameters can be
+given as input to the function {\tt chainGibbs(mcmc.size,$\alpha,\beta$)} in {\bf chainGibbs.R} or 
+hopefully your own new function. 
+\end{enumerate}
+
+\vskip 11pt
+{\bf References:} 
+
+[1] Bailey T.J.N. ``The Mathematical Theory of Infectious Diseases'',
+Charles Griffiths and Company, London 1975.
+
+[2] O'Neill P. and Roberts G. ``Bayesian inference for partially observed stochastic processes'', {\it Journal of the Royal Statistical Society}, Series A, {\bf 162}, 121--129 (1999).
+
+[3] Becker N. Analysis of infectious disease data. Chapman and Hall, New York 1989.
+
+[4] O'Neill P. A tutorial introduction to Bayesian inference for
+stochastic epidemic models using Markov chain Monte Carlo methods.
+{\it Mathematical Biosciences} 2002; 180:103-114.
+
+\end{document}

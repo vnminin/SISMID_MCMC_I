@@ -1,0 +1,1015 @@
+\documentclass[notes]{beamer}
+\usepackage{beamerthemeclassic,pgf}
+%\usepackage{beamerthemeboxes,pgf}
+\usepackage{pgf,pgfarrows,pgfnodes,pgfautomata,pgfheaps,xcolor}
+\usepackage{multirow}
+\usepackage{color}
+\usepackage{amsfonts,amssymb,amsfonts,amsmath}
+\usepackage{setspace}
+\usepackage{color,graphics}
+\usepackage{colortbl}
+\usepackage{epsfig,graphicx}
+\usepackage{textcomp}
+\usepackage{natbib}
+%\usepackage{pgfpages}
+%\pgfpagesuselayout{4 on 1}[letter,border shrink=3mm]
+
+\title{MCMC I Methods  \\
+ Introduction}
+%\subtitle{Modeling Immunity}
+
+\author{Vladimir Minin, Kari Auranen, M.\ Elizabeth Halloran}
+
+\institute{SISMID 2018  \\
+University of Washington \\
+Seattle, WA, USA }
+%\tiny{Thanks NIH/NIAID R01-AI32042} }
+\newcommand{\Naive}{Na\"{\i}ve}
+\newcommand{\naive}{na\"{\i}ve}
+\newcommand{\comment}[1]{}
+\newcommand{\state}{
+\left\{
+\begin{array}{l}
+1=``+"\\
+2=``-"\\
+3=``="
+\end{array}
+\right .}
+
+\begin{document}
+\frame{\titlepage}
+\section*{Outline}
+\frame{\tableofcontents}
+
+
+
+
+
+\section{Introduction}
+\frame{\tableofcontents[current]}
+
+
+
+
+\subsection{Bayesian inference}
+
+%\frame{ \frametitle{Bayes' Rule}
+%\begin{itemize}
+%\item Let 
+%\end{itemize}
+%}
+
+\frame{ \frametitle{Prior, likelihood, and posterior}
+\begin{itemize}
+\item Let 
+\begin{itemize}
+\item $y = (y_{1},\dots,y_{n})$: observed data
+\vspace{.2cm}
+\item $f(y|\theta)$: model for the observed data, usually a probability distribution 
+\vspace{.2cm}
+\item $\theta$: vector of unknown parameters, assumed a random quantity 
+\vspace{.2cm}
+\item $\pi(\theta)$: prior distribution of $\theta$
+\end{itemize}
+\vspace{.2cm}
+\item The posterior distribution for inference concerning $\theta$ is 
+\end{itemize}
+\begin{eqnarray}
+f(\theta|y)  =  \frac{f(y|\theta)\pi(\theta)}{\int f(y|u)\pi(u) du}. \nonumber
+\end{eqnarray} 
+}
+\frame{ \frametitle{Posterior and marginal density of $y$}
+
+\begin{itemize}
+\item The integral $\int f(y|u)\pi(u) du$, the marginal density of the data $y$,  does not depend on $\theta$. 
+\vspace{.2cm}
+\item When the data $y$ are fixed,  then the integral can be regarded as a normalizing constant $C$. 
+\vspace{.2cm}
+\item In high dimensional 
+problems, the integral can be very difficult to evaluate. 
+\vspace{.2cm}
+\item Evaluation of the complex integral $\int f(y|u)\pi(u) du$ was a focus of much Bayesian 
+computation. 
+\end{itemize}
+}
+
+\frame{ \frametitle{Advent of MCMC Methods}
+\begin{itemize}
+\item With the advent of the use of Markov chain Monte Carlo (MCMC) methods, \\
+$\longrightarrow$ one could avoid evaluating the integral, making 
+use of the unnormalized posterior density.
+\begin{eqnarray}
+f(\theta|y) \propto  f(y|\theta)\pi(\theta). \nonumber 
+\end{eqnarray}
+\item Equivalently, if we denote the likelihood function or sampling distribution by $L(\theta)$, then
+\begin{eqnarray}
+f(\theta|y) & \propto &  L(\theta)\pi(\theta). \nonumber \\
+\mbox{posterior} & \propto& \mbox{likelihood~} \times \mbox{~prior} \nonumber
+\end{eqnarray}
+\item We will show how this works. 
+\end{itemize}
+
+}
+
+
+\frame{ \frametitle{Other Uses of MCMC Methods}
+
+\begin{itemize}
+\item Can simplify otherwise difficult computations.
+\vspace{.2cm}
+\item Sometimes a likelihood would be easy to evaluate if some data 
+had been observed that was not observed or is unobservable. 
+\vspace{.2cm}
+\item Examples: 
+\begin{itemize}
+\item infection times, \item time of clearing infection, \item when someone is infectious, 
+\item chains 
+of infection. 
+\end{itemize}
+\vspace{.2cm}
+\item MCMC methods can be used to augment the observed data to make estimation simpler. 
+\end{itemize}
+
+}
+
+
+\frame{ \frametitle{Likehood  and Data Transforms Prior to Posterior}
+
+\begin{itemize}
+\item 
+Likelihood and data take prior to posterior:\\
+\vspace{.4cm}
+\begin{center} 
+Transformation \\
+{\Large Prior $~~~~~~~~~~ \longrightarrow~~~~~~~$ Posterior} \\
+   --Likelihood \\
+   --Data
+   \end{center}
+   \vspace{.4cm}
+\item Bayesian data analysis is a study of the transformation. 
+\end{itemize}
+}
+
+
+
+\subsection{Motivating examples}
+\frame{\tableofcontents[current]}
+\frame{ \frametitle{Transmission probability }
+\begin{itemize}
+\item $p$  is the probability an infective infects a susceptible: transmission probability
+\vspace{.3cm}
+\item $q= 1-p$ is the probability a susceptible escapes infection when exposed to an infective: escape probability 
+\vspace{.3cm}
+\item Transmission versus escape ? which is the ``success'' and which the  ''failure''?
+\vspace{.3cm}
+\item Given there are $n$ exposures, and $y$ infections, what is the estimate of the transmission probability? 
+\vspace{.3cm}
+\item Given there are $n$ exposures, and $n-y$ escapes, what is the estimate of the escape probability?
+\end{itemize}
+}
+
+\frame{ \frametitle{Chain-binomial model}
+\begin{itemize}
+\item Assume independent households 
+\vspace{.3cm}
+\item One person in each household introduces the infection into the household (index case).
+\vspace{.3cm}
+\item Infections occur within households in generations of infection (discrete time).
+\vspace{.3cm}
+\item $p$  is the probability an infective infects a susceptible in a household in a generation
+\vspace{.3cm}
+\item $q= 1-p$ is the probability a susceptible escapes infection when exposed to an infective in a household
+\end{itemize}
+}
+
+
+\frame{ \frametitle{Reed-Frost Chain Binomial Model}
+
+\begin{figure}
+\caption{Independent exposures = independent Bernoulli trials}
+\includegraphics[width=3.6in,angle=0]{fig4_3final.pdf}
+\end{figure}
+
+}
+
+\frame{ \frametitle{Chain Binomial Model}
+\begin{table}[tbp]
+%\centering
+\caption{Chain binomial probabilities in the Reed-Frost model in $N$ households of size 3 with 1 initial
+infective and 2 susceptibles, $S_{0}=2, I_{0}=1$}
+\label{tab:dyn1:3chains}
+\begin{tabular}{lccccc}
+\hline
+&  & &  &  & Final  \\ 
+& Chain& & at & at &  number \\ 
+Chain &  probability & Frequency & p=0.4 & p=0.7 & infected  \\ \hline
+$1\longrightarrow 0$ & $q^2 $ & $n_{1}$& 0.360 & 0.090 & 1 \\ 
+$1\longrightarrow 1 \longrightarrow 0$ & $2pq^2$ & $n_{11}$ & 0.288 & 0.126 & 2 \\ 
+$1\longrightarrow 1 \longrightarrow 1$ & $2p^2q$ & $n_{111}$& 0.192 & 0.294 & 3 \\ 
+$1\longrightarrow 2$ & $p^2$ & $n_{12}$ & 0.160 & 0.490 & 3 \\ \hline
+& & & & & \\
+Total & 1 & $N$ & 1.00 & 1.00 &  \\ 
+\hline
+\end{tabular}
+\end{table}
+}
+
+
+
+\frame{ \frametitle{Chain binomial model}
+\begin{itemize}
+\item Data: The observations are based on outbreaks of measles in Rhode Island 1929--1934. 
+\vspace{.3cm}
+\item The analysis is restricted to $N= 334$ families with three susceptible individuals at the outset of the 
+epidemic. 
+\vspace{.3cm}
+\item Assume there is a single index case that introduces infection into the family. 
+\vspace{.3cm}
+\item The actual chains are not observed, just how many are infected at the end of the epidemic. 
+\vspace{.3cm}
+\item So the frequency of chains $1\longrightarrow 1 \longrightarrow 1$ and $1\longrightarrow 2$ are not observed.
+\vspace{.3cm}
+\item MCMC can be used to augment the  missing data, and estimate the transmission probability $p$. 
+\end{itemize}
+}
+
+\frame{ \frametitle{Chain Binomial Model}
+\begin{table}[tbp]
+%\centering
+\caption{Rhodes Island measles data: chain binomial probabilities in the Reed-Frost model in $N=334$ households of size 3 with 1 initial
+infective and 2 susceptibles, $N_{3}= n_{111}+n_{12} =275$ is observed }
+\label{tab:dyn1:3chains}
+\begin{tabular}{lcccc}
+\hline
+&  & &  &  Final  \\ 
+& Chain& & Observed &  number \\ 
+Chain &  probability & Frequency &  frequency  & infected  \\ \hline
+$1\longrightarrow 0$ & $q^2 $ & $n_{1}$&  34  & 1 \\ 
+$1\longrightarrow 1 \longrightarrow 0$ & $2pq^2$ & $n_{11}$ & 25    & 2 \\ 
+$1\longrightarrow 1 \longrightarrow 1$ & $2p^2q$ & $n_{111}$& not observed & 3 \\ 
+$1\longrightarrow 2$ & $p^2$ & $n_{12}$ & not observed & 3 \\ \hline
+& & &  & \\
+Total & 1 & $N$ & 334 &    \\ 
+\hline
+\end{tabular}
+\end{table}
+}
+
+
+\frame{ \frametitle{General epidemic (SIR) model}
+\begin{itemize}
+\item The population of $N$ individuals
+\vspace{.3cm}
+\item Denote the numbers of susceptible, infective, and removed individuals at time $t$ by $S(t)$, $I(t)$, and $R(t)$.
+\vspace{.3cm}
+\item The process can be represented by the compartmental diagram 
+\begin{equation}
+S(t) \longrightarrow I(t) \longrightarrow R(t) \nonumber
+\end{equation}
+\vspace{.2cm}
+\item Thus, $S(t) +I(t)+R(t) = N$ for all $t$. 
+\vspace{.3cm}
+\item Initially, $(S(0),I(0),R(0)) = (N-1,1,0)$
+\end{itemize}
+}
+
+
+\frame{ \frametitle{General epidemic model}
+\begin{itemize}
+\item Each infectious individual remains so for a length of time 
+$T_{I}\sim \exp(\gamma)$.
+\vspace{.3cm}
+\item During this time, infectious contacts occur with each susceptible according to a 
+Poisson process of rate $\beta/N$
+\vspace{.3cm}
+\item Thus, the overall hazard of infection  at time $t$ is  $\beta I(t)/N$
+\vspace{.3cm}
+\item The two model parameters of interest are $\beta$ and $\gamma$
+\end{itemize}
+}
+\frame{ \frametitle{General epidemic model}
+\begin{itemize}
+\item In a well-known smallpox data set, the removal times are observed. That is, when the 
+people are no longer infectious for others.
+\vspace{.3cm}
+\item However, the infection times are not observed. 
+\vspace{.3cm}
+\item Thus, estimating the two model parameters is difficult.
+\vspace{.3cm}
+\item The missing infection times are treated as latent variables. 
+\vspace{.3cm}
+\item MCMC methods are used to augment the missing infection times and estimate the parameters 
+$\beta$ and $\gamma$. 
+\end{itemize}
+}
+
+\frame{ \frametitle{Susceptible-infected-susceptible (SIS) model}
+\begin{itemize}
+\item Background: Many infections are recurrent, occurring as an alternating series of presence and absence of infection 
+\vspace{.3cm}
+\item Nasopharyngeal carriage of {\it Streptococcus pneumoniae} (Auranen et al 2000; Cauchemez et al; Melegaro et al)
+\vspace{.3cm}
+\item Nasopharyngeal carriage of {\it Neisseria meningitidis}  (Trotter and Gay 2003)
+\vspace{.3cm}
+\item Malaria (Nagelkerke et al,)
+\vspace{.3cm}
+\item multi-resistant {\it Staphylococcus aureus} (Cooper et al)
+\end{itemize}
+}
+
+
+\frame{ \frametitle{Susceptible-infected-susceptible (SIS) model}
+\begin{itemize}
+\item The population of $N$ individuals
+\vspace{.3cm}
+\item Denote the numbers of susceptible and infected individuals at time $t$ by $S(t)$ and $I(t)$.
+\vspace{.3cm}
+\item The process can be represented by the compartmental diagram 
+\begin{equation}
+S(t) \leftrightarrow I(t)   \nonumber
+\end{equation}
+\vspace{.3cm}
+\item Thus, $S(t) +I(t) = N$ for all $t$. 
+\vspace{.3cm}
+\item Acquisition and clearance times often remain unobserved 
+\vspace{.3cm}
+\item Active sampling of the population to determine the current status of being infected or susceptible in individuals.
+\end{itemize}
+}
+
+\frame{ \frametitle{Susceptible-infected-susceptible (SIS) model}
+\begin{itemize}
+\item Could be formulated as an infectious disease transmission process, as the general epidemic model.
+\vspace{.3cm}
+\item Too complicated for this introductory course
+\vspace{.3cm}
+\item We consider here the simple transition process, with rate parameters $\lambda$ for acquisition and $\mu$ for clearance. 
+\vspace{.3cm} 
+\item The acquisition and clearance times are treated as latent variables.
+\vspace{.3cm}
+\item MCMC methods are used to augment the missing infection and clearance times, and estimate the parameters $\lambda$ and 
+$\mu$.
+
+\end{itemize}
+}
+
+
+
+
+
+\subsection{Prior distributions}
+\frame{\tableofcontents[current]}
+
+\frame{ \frametitle{Conjugate prior distribtions}
+
+\begin{itemize}
+
+\item  Conjugacy: the property that the posterior distribution follows that same parametric 
+form as the prior distribution.  \\
+\vspace{.3cm}
+
+\item Beta prior distribution is  conjugate family for  binomial likelihood: posterior distribution is Beta \\
+\vspace{.3cm}
+
+\item Gamma prior distribution is conjugate family for  Poisson likelihood: posterior distribution is Gamma\\
+%\vspace{.3cm}
+%\item Normal prior distribution is conjugate family for Normal likelihood \\
+%\vspace{.3cm}
+%\item Dirichlet prior distribution is conjugate family for multinomial likelihood
+\end{itemize}
+}
+
+\frame{ \frametitle{Conjugate prior distributions}
+
+\begin{itemize}
+
+\item Simply put, conjugate prior distributions in tandem with the appropriate sampling distribution for the 
+data have the same distribution as the posterior distribution.  
+\vspace{.4cm}
+
+\item  Conjugate prior distributions have computational
+convenience. \\
+\vspace{.4cm}
+
+\item They can also be interpreted as additional data.
+\vspace{.4cm}
+
+\item They have the disadvantage of constraining
+the form of the prior distribution. 
+
+\end{itemize}
+}
+
+
+
+\frame{ \frametitle{Nonconjugate prior distributions}
+
+\begin{itemize}
+
+\item Nonconjugate prior distributions can be used when the shape of the prior knowledge or belief about the 
+distribution of the parameters of interest does not correspond to the conjugate prior distribution.
+ \\
+\vspace{.4cm}
+
+\item Noninformative prior distributions carry little population information and are generally supposed to 
+play a minimal role in  the posterior distribution. \\
+$\longrightarrow$They are also called diffuse, vague, or flat priors. \\
+
+\vspace{.4cm}
+
+\item Computationally nonconjugate distributions can be more demanding.
+\end{itemize}
+}
+
+\section{Transmission Probability}
+%\frame{\tableofcontents[current]}
+
+\subsection{Full probability model}
+\frame{\tableofcontents[current]}
+\frame{ \frametitle{Data and Sampling Distribution}
+
+\begin{itemize}
+
+\item Goal:  Inference on the posterior distribution of the transmission probability  \\
+\vspace{.4cm}
+
+\item Suppose that $n$ people are exposed once to infection \\
+\begin{itemize}
+\item $y$ become infected (``successes'')
+\item $n -y$ escape infection (``failures'')
+\end{itemize}
+\vspace{.4cm}
+\item Let 
+\begin{itemize}
+\item $p =$ transmission probability 
+\item $1- p = q =$ escape probability
+\end{itemize}
+\item Binomial sampling distribution 
+\begin{eqnarray}
+L(y|p) = \mbox{Bin}(y|n,p) = \binom{n}{y}p^{y}(1-p)^{n-y}= \binom{n}{y}p^{y}q^{n-y} \nonumber
+\end{eqnarray}
+\end{itemize}
+}
+
+
+
+\frame{ \frametitle{Specify the Prior  Distribution of $p$}
+
+\begin{itemize}
+\item To perform Bayesian inference, we must specify a prior distribution for $p$.  \\
+\vspace{.2cm}
+\item  We specify a Beta prior distribution: 
+\begin{eqnarray}
+p & \sim & \mbox{Beta}(\alpha,\beta) \nonumber \\
+& & \nonumber \\
+ \mbox{Beta}(p|\alpha,\beta) &= & \frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)}p^{\alpha-1}(1-p)^{\beta-1}, \alpha >0, \beta>0. \nonumber
+ \end{eqnarray}
+\item Mean: $E(p|\alpha,\beta)=\frac{\alpha}{\alpha+\beta}$
+\vspace{.3cm}
+\item Variance: $ \frac{\alpha \beta}{(\alpha+\beta)^{2}(\alpha+\beta+1)}=  \frac{E(p|\alpha,\beta)[1- E(p|\alpha,\beta)]}{\alpha + \beta +1}$
+\end{itemize}
+}
+
+
+\frame{ \frametitle{Specify the Prior  Distribution of $p$}
+\begin{itemize}
+\item  We specify a Beta prior distribution: 
+\begin{eqnarray}
+p & \sim & \mbox{Beta}(\alpha,\beta) \nonumber \\
+ & & \nonumber \\
+\pi(p) & = & \mbox{Beta}(p|\alpha,\beta) \nonumber \\
+ & & \nonumber \\
+ \mbox{Beta} &\propto & p^{\alpha-1}(1-p)^{\beta-1}. \nonumber
+\end{eqnarray}
+\item Looks similar to binomial distribution 
+\vspace{.3cm}
+\item $\alpha >0$, $\beta>0$, ``prior sample sizes''
+\end{itemize}
+}
+
+\frame{ \frametitle{Posterior distribution of $p$}
+
+\begin{itemize}
+
+\item  The posterior distribution of the transmission probability $p$, $f(p|y)$:\\
+\vspace{.1cm}
+\begin{eqnarray}
+f(p|y) & \propto & p^{y}(1-p)^{n-y}p^{\alpha-1}(1-p)^{\beta-1} \nonumber \\
+\mbox{posterior}& & \mbox{likelihood~} \times {~prior}  \nonumber \\
+ & & \nonumber \\
+& = & p^{y+\alpha-1}(1-p)^{n-y+\beta-1} \nonumber \\
+ & & \nonumber \\
+& = & \mbox{Beta}(p|\alpha+y,\beta+n-y)  \nonumber 
+\end{eqnarray}
+\vspace{.2cm}
+\item The role of $\alpha$ and $\beta$ as prior sample sizes is clear. 
+\end{itemize}
+}
+\frame{ \frametitle{Posterior mean of $\theta$}
+
+\begin{itemize}
+
+\item Posterior mean of $p$  \\
+$\longrightarrow$ posterior probability of success (transmission) for a future draw from the population:
+\begin{eqnarray}
+E(p|y) = \frac{\alpha+y}{\alpha + \beta +n} \nonumber
+\end{eqnarray}
+\vspace{.2cm}
+\item posterior mean always lies between the prior mean $\alpha/(\alpha+\beta)$ and the sample mean $y/n$.
+\item Posterior variance of $p$:
+\begin{eqnarray}
+\mbox{var}(p|y) = \frac{E(p|y)[1- E(p|y)]}{\alpha + \beta +n+1} \nonumber
+\end{eqnarray}
+\end{itemize}
+}
+
+\subsection{Varying data and prior information}
+\frame{\tableofcontents[current]}
+\frame{ \frametitle{Uniform prior distribution }
+
+\begin{itemize}
+\item The uniform prior  distribution on [0,1] corresponds to $\alpha = 1$, $\beta =1$. Essentially no prior 
+information on $p$.  
+\begin{eqnarray}
+f(p|y) =  \mbox{Beta}(p|y +1,n-y+1)  \nonumber 
+\end{eqnarray}
+\item Let's see how the posterior distribution of the transmission probability depends on the amount of data given a 
+uniform prior distribution (Sample mean $y/n = 0.40$).  
+\end{itemize}
+\begin{center}
+\begin{tabular}{cc}
+$n$, number exposed & $y$, number infected \\
+\hline
+5 & 2 \\
+20 & 8 \\
+50 & 20 \\
+1000 & 400\\
+\end{tabular}
+\end{center}
+}
+
+\frame{ %\frametitle{ }
+
+\begin{figure}
+\caption{R program: Posterior distribution with differing amounts of data. Uniform Beta prior, Binomial sampling distribution.}
+\includegraphics[width=3.6in,angle=0]{betaunif1.pdf}
+\end{figure}
+
+
+}
+
+
+
+
+\subsection{Prediction}
+\frame{\tableofcontents[current]}
+
+\frame{ \frametitle{Prediction}
+\begin{itemize}
+\item After the data have been observed, we can predict a future unknown observable $y_{n+1}$.
+\vspace{.3cm}
+\item For example, we may observe $n$ people who were exposed to infection, and whether they
+became infected. 
+\vspace{.3cm}
+\item We may want to predict the probability that the next person to be observed would become infected. 
+\vspace{.3cm}
+\item Posterior predictive distribution: \\
+$\longrightarrow$ posterior because conditional on the observed $y$ \\
+$\longrightarrow$ predictive because it is a prediction for an observable $y_{n+1}$.
+\end{itemize} 
+
+}
+
+\frame{ \frametitle{Prediction}
+\begin{itemize} 
+\item {\bf Posterior predictive distribution of unknown observable  $y_{n+1}$}:
+\begin{eqnarray}
+f(y_{n+1}|y) & = & \int f(y_{n+1},p|y) dp \nonumber \\
+  & = & \int f(y_{n+1}|p,y) f(p|y)dp \nonumber \\
+  & = & \int f(y_{n+1}|p) f(p|y) dp \nonumber 
+\end{eqnarray}
+\vspace{.4cm}
+\item The last line follows because $y$ and $y_{n+1}$ are conditionally 
+independent given $p$ in this model.
+\vspace{.4cm}
+\item Useful in model checking.
+\end{itemize} 
+
+}
+
+\frame{ \frametitle{References}
+
+\begin{itemize}
+\item Gelman, A, Carlin, JB, Stern, HS, Dunson, DB, Vehtari, A, 
+Rubin, DB.\ {\it Bayesian Data Analysis}, Chapman and Hall/CRC, third edition, 2014.
+\vspace{.1cm}
+\item Carlin, BP and Louis, TA.\ {\it Bayesian Methods for Data Analysis}, CRC Press, third edition, 
+2008.
+\end{itemize}
+}
+
+\section{Simple Gibbs sampler}
+\subsection{Chain binomial model}
+\frame{\tableofcontents[current]}
+\frame{ \frametitle{Chain Binomial Model}
+\begin{table}[tbp]
+%\centering
+\caption{Rhodes Island measles data: chain binomial probabilities in the Reed-Frost model in $N=334$ households of size 3 with 1 initial
+infective and 2 susceptibles, $N_{3}= n_{111}+n_{12} =275$ is observed }
+\label{tab:dyn1:3chains}
+\begin{tabular}{lcccc}
+\hline
+&  & &  &  Final  \\ 
+& Chain& & Observed &  number \\ 
+Chain &  probability & Frequency &  frequency  & infected  \\ \hline
+$1\longrightarrow 0$ & $q^2 $ & $n_{1}$&  34  & 1 \\ 
+$1\longrightarrow 1 \longrightarrow 0$ & $2pq^2$ & $n_{11}$ & 25    & 2 \\ 
+$1\longrightarrow 1 \longrightarrow 1$ & $2p^2q$ & $n_{111}$& not observed & 3 \\ 
+$1\longrightarrow 2$ & $p^2$ & $n_{12}$ & not observed & 3 \\ \hline
+& & &  & \\
+Total & 1 & $N$ & 334 &    \\ 
+\hline
+\end{tabular}
+\end{table}
+}
+
+\frame{ \frametitle{Complete data likelihood for $q$}
+
+\begin{itemize}
+
+
+\item The multinomial complete data likelihood for $q$: 
+{\footnotesize
+\begin{eqnarray}
+& & f(n_{1},n_{11},N_{3},n_{111}|q) \nonumber \\
+& & \nonumber \\
+ & =& \binom{334}{n_{1},n_{11},n_{111},N_{3}-n_{111}}(q^{2})^{n_{1}}(2q^{2}p)^{n_{11}}(2qp^{2})^{n_{111}}(p^{2})^{N_{3}-n_{111}} \nonumber \\
+& & \nonumber \\
+& = & \mbox{~constant~} \times q^{2n_{1}+2n_{11}+n_{111}}p^{n_{11}+2N_{3}} \nonumber 
+\end{eqnarray} 
+}
+\vspace{.4cm}
+
+\item The observed data are $(n_{1},n_{11},N_{3})$, but we do not observe $n_{111}$.
+
+\vspace{.4cm}
+\item We could estimate $q$ using a marginal model, but won't. 
+\end{itemize}
+}
+
+
+\frame{ \frametitle{Gibbs sampler for chain binomial model}
+
+\begin{itemize}
+\item  The general idea of the Gibbs sampler is to sample the model unknowns from a sequence of full conditional distributions
+and to loop iteratively through the sequence.
+\vspace{.3cm}
+
+\item To sample one draw from each full conditional distribution at each iteration, it is assumed that all of the other model quantities are known at that iteration. 
+  \vspace{.3cm}
+\item In the theoretical lectures, it will be shown that that the Gibbs sampler converges to the posterior distribution of the model unknowns. 
+
+ \vspace{.3cm}
+\item In the Rhode Island measles data, we are interested in augmenting the missing data $n_{111}$ and estimating the 
+posterior distribution of $q$, the escape probability. 
+
+\end{itemize}
+}
+
+
+\frame{ \frametitle{Gibbs sampler for chain binomial model}
+
+\begin{itemize}
+
+\item The joint distribution of the observations $(n_{1},n_{11},N_{3})$ and the model unknowns $(n_{111},q)$ is 
+\begin{eqnarray}
+f(n_{1},n_{11},N_{3},n_{111},q)& = &f(n_{1},n_{11},N_{3},n_{111}|q)\times f(q) \nonumber \\
+& & \mbox{complete data likelihood~}\times \mbox{~prior} \nonumber
+\end{eqnarray}
+
+\vspace{.2cm}
+
+\item We want to make inference about the joint posterior distribution of the model unknowns 
+\[ f(n_{111},q|n_{1},n_{11},N_{3}) \]
+
+\vspace{.2cm}
+
+\item This is possible by sampling from the full conditionals (Gibbs sampling): 
+$f(q|n_{1},n_{11},N_{3} , n_{111}) $ and $f(n_{111}|n_{1},n_{11},N_{3},q) $
+
+\end{itemize}
+}
+
+
+
+\frame{ \frametitle{Algorithm for Gibbs sampler for chain binomial model}
+
+\begin{enumerate}
+
+\item Start with some initial values  $(q^{(0)},n_{111}^{(0)})$
+\vspace{.3cm}
+
+\item For $t=0$ to $M$ do 
+\vspace{.3cm}
+
+\item Sample $q^{(t+1)} \sim f(q|n_{1},n_{11},N_{3} , n_{111}^{(t)}) $
+\vspace{.3cm}
+\item Sample $n_{111}^{(t+1)} \sim f(n_{111}|n_{1},n_{11},N_{3},q^{(t+1)}) $
+\vspace{.3cm}
+\item end for
+\vspace{.3cm}
+\item How to get the two full conditionals in this model?
+\end{enumerate}
+}
+
+\subsection{Full conditionals}
+
+\frame{ \frametitle{Full conditional of chain $1 \longrightarrow 1 \longrightarrow 1 $}
+
+\begin{itemize}
+
+\item Assume $q$ is known 
+\vspace{.3cm}
+
+\item Compute the conditional probability of chain $1 \rightarrow 1 \rightarrow 1 $ when outbreak size is $N=3$:
+{\scriptsize
+\begin{eqnarray}
+\Pr(1 \rightarrow 1 \rightarrow 1 |N=3,q) = \frac{\Pr(N=3, 1 \rightarrow 1 \rightarrow 1 |q)}{\Pr(N=3 |q)}~~~~~~~~~~~~~~~~~~~~~~ \nonumber \\
+ \nonumber \\
+=\frac{\Pr(N=3| 1 \rightarrow 1 \rightarrow 1 ,q)\Pr( 1 \rightarrow 1 \rightarrow 1 |q)}
+{\Pr(N=3| 1 \rightarrow 1 \rightarrow 1 ,q)\Pr( 1 \rightarrow 1 \rightarrow 1 |q) + \Pr(N=3| 1 \rightarrow 2  ,q)\Pr( 1 \rightarrow 2 |q)} \nonumber \\
+ \nonumber \\
+= \frac{2p^{2}q}{2p^{2}q+p^{2}} = \frac{2q}{2q+1}, ~~ (0 \leq q <1) \nonumber
+\end{eqnarray}
+}
+\end{itemize}
+}
+
+
+
+\frame{ \frametitle{The full conditional of $n_{111}$}
+
+\begin{itemize}
+
+
+\item We have found that 
+\begin{equation}
+\Pr(1 \rightarrow 1 \rightarrow 1 |N=3,q) = \frac{2q}{2q+1} \nonumber
+\end{equation} 
+\vspace{.4cm}
+
+\item So the full conditional distribution of $n_{111}$ is 
+\[ n_{111}|(n_{1},n_{11},N_{3},q ) \sim \mbox{Binomial}(275, 2q/(2q+1))
+\]
+
+\end{itemize}
+}
+
+
+\frame{ \frametitle{The full conditional of $q$}
+
+\begin{itemize}
+
+
+\item Assume that $n_{111}$ is known, that is, assume we know the complete data 
+$(n_{1},n_{11},N_{3},n_{111})$
+\vspace{.cm}
+\item Assume a prior distribution for $q$: $q \sim \mbox{Beta}(\alpha, \beta)$, 
+\[ f(q) \equiv f(q|\alpha,\beta) \propto q^{\alpha-1}(1-q)^{\beta-1}
+\]
+
+\item The full conditional distribution of $q$ :
+\begin{eqnarray}
+f(q|n_{1},n_{11},N_{3},n_{111},\alpha,\beta) \propto f(n_{1},n_{11},N_{3},n_{111}|q,\alpha,\beta)f(q|\alpha,\beta) \nonumber \\
+ \nonumber \\
+\propto q^{2n_{1}+2n_{11}+n_{111}}p^{n_{11}+2N_{3}} \times q^{\alpha-1}(1-q)^{\beta-1} \nonumber \\
+\mbox{complete data likelihood~~~~~~~} \times\mbox{prior~~~~~~~} \nonumber
+\end{eqnarray}
+\end{itemize}
+}
+
+
+\frame{ \frametitle{The full conditional of $q$}
+
+\begin{itemize}
+
+
+\item The full conditional distribution of $q$ is thus  a Beta distribution 
+{\scriptsize 
+\begin{eqnarray}
+q|\mbox{complete data},\alpha,\beta \sim \mbox{Beta}(2n_{1}+2n_{11}+n_{111}+\alpha, n_{11}+2N_{3}+\beta) \nonumber
+\end{eqnarray}
+}
+\vspace{.3cm}
+\item A uniform prior on $q$ corresponds to $\alpha = 1$, $\beta=1$. 
+\vspace{.3cm}
+\item With the complete data, a natural point estimate of the escape probability would be the mean of the Beta distribution, i.e., the proportion
+of ``escapes'' out of all exposures: 
+\[ \frac{2n_{1}+2n_{11}+n_{111}+\alpha}{2n_{1}+3n_{11}+3n_{111}+2n_{12}+\alpha+\beta}
+\]
+\end{itemize}
+}
+
+\frame{ \frametitle{Algorithm for Gibbs sampler for chain binomial model}
+
+\begin{enumerate}
+
+\item Start with some initial values  $(q^{(0)},n_{111}^{(0)})$
+\vspace{.3cm}
+
+\item For $t=0$ to $M$ do 
+\vspace{.3cm}
+
+\item Sample $q^{(t+1)} \sim \mbox{Beta}(2n_{1}+2n_{11}+n_{111}^{(t)}+\alpha, n_{11}+2N_{3}+\beta)  $
+\vspace{.3cm}
+\item Sample $n_{111}^{(t+1)} \sim  \mbox{Binomial}(275, 2q^{(t+1)}/(2q^{(t+1)}+1)) $
+\vspace{.3cm}
+\item end for
+\vspace{.3cm}
+\item Get summaries of the marginal  posterior distributions.
+\end{enumerate}
+}
+
+\frame{\frametitle{ Posterior distributions of $q$ and $n_{111}$}
+
+\begin{figure}
+%\caption{x}
+\includegraphics[width=4.8in,angle=0]{chaingibbs1.pdf}
+\end{figure}
+
+
+}
+
+
+
+
+
+
+
+
+
+
+\end{document}
+
+
+\frame{ \frametitle{Reference}
+
+}
+
+
+
+\frame{ \frametitle{Data and Sampling Distribution}
+
+\begin{itemize}
+
+\item . \\
+\vspace{.4cm}
+
+\item . \\
+\vspace{.4cm}
+
+\item .
+\end{itemize}
+}
+
+
+\frame{ \frametitle{Data and Sampling Distribution}
+
+\begin{itemize}
+
+\item . \\
+\vspace{.4cm}
+
+\item . \\
+\vspace{.4cm}
+
+\item .
+\end{itemize}
+}
+
+\frame{ \frametitle{Data and Sampling Distribution}
+
+\begin{itemize}
+
+\item . \\
+\vspace{.4cm}
+
+\item . \\
+\vspace{.4cm}
+
+\item .
+\end{itemize}
+}
+
+\frame{ \frametitle{Data and Sampling Distribution}
+
+\begin{itemize}
+
+\item . \\
+\vspace{.4cm}
+
+\item . \\
+\vspace{.4cm}
+
+\item .
+\end{itemize}
+}
+
+
+
+
+\frame{ 
+%{\frametitle{ }} 
+
+\begin{figure}
+\caption{.}
+%\includegraphics[width=3.6in,angle=0]{Fig4_5.pdf}
+\end{figure}
+}
+
+\subsection{Summaries of the posterior distribution}
+\frame{ \frametitle{Posterior summaries}
+
+\begin{itemize}
+
+\item.  \\
+\vspace{.4cm}
+
+\item . \\
+\vspace{.4cm}
+
+\item .
+\end{itemize}
+}
+
+\subsection{Examples}
+\frame{ \frametitle{ex }
+
+
+\begin{itemize}
+\item .
+\begin{itemize}
+\item .
+\item .
+
+\vspace{.3cm}
+\end{itemize}
+\item .
+\end{itemize}
+}
+
+
+\section{Simple R computations }
+\subsection{Conjugate priors}
+
+\frame{ \frametitle{Gamma-Poisson} 
+\begin{itemize}
+\item :
+
+\item.
+
+
+
+\end{itemize}
+}
+
+
+
+
+\frame{ \frametitle{Beta-binomial} 
+\begin{itemize}
+\item :
+
+\item.
+
+
+
+\end{itemize}
+}
+
+\frame{ \frametitle{Dirichlet-multinomial} 
+\begin{itemize}
+\item :
+
+\item.
+
+
+
+\end{itemize}
+}
+
+
+
+
+\subsection{Simple Gibbs}
+\frame{ \frametitle{.} 
+
+\begin{itemize}
+\item $p =$  transmission probability \\
+\item $SAR =$ secondary attack rate
+\end{itemize}
+
+
+}
+
+\end{document}
