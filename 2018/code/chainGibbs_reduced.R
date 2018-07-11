@@ -12,8 +12,7 @@
 ## OUTPUT chainGibbs = the MCMC sample of q and n111 as a list
 ##                     of two entries, each a vector of length mcmc.size
 ## 
-## Updated June 17, 2010/KA
-## Last updated July 9, 2018/ MEH
+## Last updated July 11, 2018/ MEH
 #################################################################################
 chainGibbs = function(mcmc.size,alpha,beta){
 # Reserve space
@@ -35,10 +34,10 @@ N3  = 275  # frequency of chains with outbreak size 3
 for (i in 2:mcmc.size){
 
    # Draw an iterate of q from its full conditional distribution
-   q[i] = rbeta(1,2*n1+2*n11+n111[i-1]+alpha,n11+2*N3+beta)
+   # q[i] = 
   
    # Draw an iterate of n111 from its full conditional distribution
-   n111[i] = rbinom(1,N3,2*q[i]/(2*q[i]+1))
+   # n111[i] =
    
    }
 
