@@ -18,7 +18,7 @@ unif_rw_next = function(cur_value, tuning_par){
 }
 
 mcmc_size = 10000
-start.value = 3.0
+start_value = 3.0
 
 
 mcmc_out = matrix(0, nrow=(mcmc_size), ncol=2)
