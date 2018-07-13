@@ -18,7 +18,7 @@ naive_samples = ifelse(rnorm(sim_size) > my_const,1,0)
 ## importance sampling estimate
 shift_exp = rexp(sim_size,rate=1)+my_const
 is_samples = ifelse(shift_exp > my_const,1,0)*dnorm(shift_exp)*exp(shift_exp-my_const)
-is_est = mean(is_samples)
+(is_est = mean(is_samples))
 
 print(true_prob)
 print(naive_est)
