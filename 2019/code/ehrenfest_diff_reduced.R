@@ -1,6 +1,6 @@
 ## This script illustrates the ergodic theorem using the Ehrenfest model of diffusion
 ## Author: Vladimir N. Minin
-## last update: 07/11/2018
+## last update: 07/14/2019
 
 ## this function randomly draws a new state of the Ehrenfest model
 ## One of your tasks is to finish writing this function
