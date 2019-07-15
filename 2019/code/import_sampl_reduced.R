@@ -1,6 +1,6 @@
 ## This script illustrates the Importance-Sampling algorithm
 ## Author: Vladimir N. Minin
-## last update: 07/11/2018
+## last update: 07/14/2019
 
 ## define a threshold value and number of Monte Carlo samples
 my_const = 4.5
