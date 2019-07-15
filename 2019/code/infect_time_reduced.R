@@ -2,7 +2,7 @@
 ## approximating the posterior distribution of the time of infection
 ## in a simple SIS model
 ## Author: Vladimir N. Minin
-## last update: 07/11/2018
+## last update: 07/14/2019
 
 sis_log_like = function(inf_time, inf_rate, clear_rate, total_time){
   return(log(inf_rate) - inf_rate*inf_time - clear_rate*(total_time-inf_time))

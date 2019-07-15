@@ -1,7 +1,7 @@
 ## This script illustrates the Metropolis-Hastings algorithm for
 ## approximating the standard normal distribution
 ## Author: Vladimir N. Minin
-## last update: 07/11/2018
+## last update: 07/14/2019
 
 ## Your task: Add code the following function. The input of  
 ## the function is the current value of the random walk and 
