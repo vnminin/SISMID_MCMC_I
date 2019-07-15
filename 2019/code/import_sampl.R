@@ -4,7 +4,7 @@
 
 ## define a threshold value and number of Monte Carlo samples
 my_const = 4.5
-sim_size = 1000000
+sim_size = 10000000
 
 ## true probability of interest
 (true_prob = pnorm(my_const,lower.tail=FALSE))
