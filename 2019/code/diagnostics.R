@@ -56,3 +56,4 @@ plot(coda.gibbs.list)
 gelman.diag(coda.gibbs.list)
 
 gelman.plot(coda.gibbs.list)
+
