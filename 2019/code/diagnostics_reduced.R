@@ -58,6 +58,6 @@ gelman.diag(coda.gibbs.list)
 gelman.plot(coda.gibbs.list)
 
 
-## Exersize: perform diagnostics for SIR data augmentatkon MCMC
+## Exercise: perform diagnostics for SIR data augmentatkon MCMC
 
 source("https://raw.githubusercontent.com/vnminin/SISMID_MCMC_I/master/2019/code/SIRaugmentation.R")
