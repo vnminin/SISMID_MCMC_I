@@ -4,7 +4,7 @@
 
 ## define a threshold value and number of Monte Carlo samples
 my_const = 4.5
-sim_size = 10000
+sim_size = 1000000
 
 ## true probability of interest
 (true_prob = pnorm(my_const,lower.tail=FALSE))
@@ -17,7 +17,7 @@ naive_samples = ifelse(rnorm(sim_size) > my_const,1,0)
 
 ## importance sampling estimate
 shift_exp = rexp(sim_size,rate=1)+my_const
-is_samples = dnorm(shift_exp)*exp(shift_exp-my_const)
+is_samples = dnorm(shift_exp)/exp(-(shift_exp-my_const))
 (is_est = mean(is_samples))
 
 print(true_prob)
