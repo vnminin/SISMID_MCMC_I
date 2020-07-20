@@ -23,3 +23,4 @@ sim_size = 10000
 ## density, because it is available via `dnorm()'. 
 ## If you finish early, get Monte Carlo errors for 
 ## naive and important sampling schemes. 
+
