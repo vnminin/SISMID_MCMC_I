@@ -63,7 +63,7 @@ mcmc_out_large_jumps[1,] = cur_state
 
 for (i in 2:mcmc_size){
   
-  cur_state = unif_rw_next(mcmc_out_large_jumps[i-1,1], 0.05)
+  cur_state = unif_rw_next(mcmc_out_large_jumps[i-1,1], 500)
   
   mcmc_out_large_jumps[i,] = cur_state
 }
