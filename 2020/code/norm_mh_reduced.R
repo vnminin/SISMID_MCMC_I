@@ -8,9 +8,9 @@
 #' Generate the next state the Metropolis-Hastings (M-H) chain targeting N(0,1) distribution, using a uniform random walk proposal
 #' 
 #' @param cur_value Current state of M-H Markov chain 
-#' @param tuning_par Tuning parameter of the uniform random walk, where a random increment ~ Unif[-tuning_par, tuning_par] is added to the current state of the Markov chain
+#' @param tuning_par Tuning parameter of the uniform random walk, where a random increment ~ Unif[-tuning_par, tuning_par] is added to the current state of the Markov chain (delta in the notes)
 #'
-#' @return Numeric vector of length 2. The first element of the vector contains the new state of the M-H Markov chain. The second element contains 0 if the proposed values was rejected and 1 otherwise.
+#' @return Numeric vector of length 2. The first element of the vector contains the next state of the M-H Markov chain. The second element contains 0 if the proposed values was rejected and 1 otherwise.
 #'
 #' @examples
 #' unif_rw_next(0.4, 5.0)
@@ -29,6 +29,7 @@ mcmc_out = matrix(0, nrow=(mcmc_size), ncol=2)
 colnames(mcmc_out) = c("state", "acc_status")
 
 cur_value = c(start_value,1)
+mcmc_out[1,] = cur_value
 
 ## Your task: add code to the below for loop to 
 ## fill in the mcmc.out matrix defined above with 
@@ -38,8 +39,7 @@ cur_value = c(start_value,1)
 ## with the tuning parameter \delta.
 
 for (i in 2:mcmc_size){
-  
-
+  mcmc_out[i,] = # using row mcmc_out[i-1,] and unif_rw_next
 }
 
 ## acceptance probability
