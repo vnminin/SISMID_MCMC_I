@@ -2,7 +2,7 @@
 ## approximating the posterior distribution of the time of infection
 ## in a simple SIS model
 ## Author: Vladimir N. Minin
-## last update: 07/14/2019
+## last update: 07/19/2020
 
 #' Compute log-likelihood of the disease trajectory of an individual who starts suscepible and become infected during the observation time period
 #' 
