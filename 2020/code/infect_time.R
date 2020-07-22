@@ -95,3 +95,4 @@ test_sample = inf_time_mcmc(start_inf_time=0.1, inf_rate=0.2, clear_rate=2, tota
 summary(test_sample[1000:10000,])
 
 hist(test_sample[1000:10000,1])
+plot(c(1000:10000), test_sample[1000:10000,2], type="l")
